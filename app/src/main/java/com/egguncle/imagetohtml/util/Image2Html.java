@@ -29,8 +29,8 @@ public class Image2Html {
      *
      * @param filePath  文件路径
      * @param blockSize 分块的大小
-     * @param title
-     * @param content
+     * @param title     标题
+     * @param content   填充的文字内容
      * @return
      */
     public String imageToHtml(String filePath, int blockSize, String title, String content) {
@@ -86,33 +86,29 @@ public class Image2Html {
         Log.i(TAG, "imageToHtml: " + width + " " + height);
 
         opts.inSampleSize = 1;
-        Bitmap bitmap=BitmapFactory.decodeFile(filePath);
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         if (bitmap == null || bitmap.getWidth() == 0 || bitmap.getHeight() == 0
                 || bitmap.isRecycled()) {
             throw new RuntimeException("bad bitmap");
         }
         bitmap = null;
-        //缩放图片 750只是一个暂时设置好的数字，用来缩小图片
+        //缩放图片 750只是一个暂时设置好的数字，用来缩放图片
+        //这里的缩放并不单指放大或者缩小，而是说修改图片的尺寸，使其在转化为html代码后的显示效果更好
         //如果图片太大，会导致生成的html文件过大，导致加载出现卡吨甚至直接失去响应。
-        if (width > 750 || height > 750) {
-            // 取得想要缩放的matrix参数
-            Matrix matrix = new Matrix();
-            float i = Math.max(750 / (float) width, 750 / (float) height);
-            height = (int) (height * i);
-            width = (int) (width * i);
-            matrix.postScale(i, i);
-            opts.inJustDecodeBounds = false;
-            opts.inScaled = false;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        float i = Math.max(750 / (float) width, 750 / (float) height);
+        height = (int) (height * i);
+        width = (int) (width * i);
+        matrix.postScale(i, i);
+        opts.inJustDecodeBounds = false;
+        opts.inScaled = false;
 
-            bitmap = BitmapFactory.decodeFile(filePath, opts);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap = BitmapFactory.decodeFile(filePath, opts);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-            Log.i(TAG, "imageToHtml: " + width + "  " + height);
-            Log.i(TAG, "imageToHtml:--- " + bitmap.getWidth() + "  " + bitmap.getHeight());
-        } else {
-            opts.inJustDecodeBounds = false;
-            bitmap = BitmapFactory.decodeFile(filePath, opts);
-        }
+        Log.i(TAG, "imageToHtml: " + width + "  " + height);
+        Log.i(TAG, "imageToHtml:--- " + bitmap.getWidth() + "  " + bitmap.getHeight());
         return bitmap;
     }
 
