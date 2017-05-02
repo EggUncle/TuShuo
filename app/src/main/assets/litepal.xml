@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="HtmlImageDB" ></dbname>
+
+    <version value="1" ></version>
+
+    <list>
+        <mapping class="com.egguncle.imagetohtml.model.HtmlImage"></mapping>
+    </list>
+</litepal>
