@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.egguncle.imagetohtml.MyApplication;
@@ -43,11 +44,13 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
 
     @Override
     public void onBindViewHolder(final HomeVideHolder holder, final int position) {
-        Glide.with(holder.itemView.getContext()).load(listData.get(position).getImgPath()).centerCrop().into(holder.imgHome);
+        Glide.with(holder.itemView.getContext()).load(listData.get(position).getImgPath()).centerCrop().into(holder.imgHomeItem);
 
         final HtmlImage htmlImage = listData.get(position);
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
+
+        holder.ivHomeItem.setText(title);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,12 +111,16 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
     }
 
     public class HomeVideHolder extends RecyclerView.ViewHolder {
-        private ImageView imgHome;
+        private ImageView imgHomeItem;
+        private TextView ivHomeItem;
+
 
 
         public HomeVideHolder(View itemView) {
             super(itemView);
-            imgHome = (ImageView) itemView.findViewById(R.id.img_home);
+            imgHomeItem = (ImageView) itemView.findViewById(R.id.img_home_item);
+            ivHomeItem = (TextView) itemView.findViewById(R.id.iv_home_item);
+
         }
 
 
