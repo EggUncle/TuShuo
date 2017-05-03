@@ -1,6 +1,8 @@
 # 图说
 图说，一个将图片转化为文字矩阵的Android APP
 
+![](https://github.com/EggUncle/Demo/blob/master/markdownimg/Screenshot_20170504-000628.png?raw=true) 
+
 ## 基本功能：
 选择图片，输入标题和填充文字，生成对应的html文件
 
