@@ -76,6 +76,7 @@ public class HomeDialog {
 
                         //将htmlImg实例包装到bundle中，使用广播发送出去
                         Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
+                        intent.putExtra("type","add_item");
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("htmlImg", htmlImage);
                         intent.putExtra("data", bundle);

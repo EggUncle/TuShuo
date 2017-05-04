@@ -34,6 +34,7 @@ import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
 import com.egguncle.imagetohtml.util.FileUtil;
 import com.egguncle.imagetohtml.util.Image2Html;
 import com.egguncle.imagetohtml.util.ImageUtil;
+import com.egguncle.imagetohtml.util.SPUtil;
 
 public class HomeActivity extends BaseActivity {
 
@@ -124,6 +125,9 @@ public class HomeActivity extends BaseActivity {
     @Override
     void initVar() {
         fileUtil = new FileUtil();
+        //记录下APP打开过，以后不启动开场动画
+        SPUtil spUtil=SPUtil.getInstance(this);
+        spUtil.recordingLaunch();
     }
 
     @Override

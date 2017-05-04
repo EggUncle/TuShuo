@@ -33,7 +33,7 @@ import java.util.List;
 public class FragmentHome extends Fragment {
 
     private final static String TAG = "FragmentHome";
-    private final static String CONTEXT="context";
+    private final static String CONTEXT = "context";
 
     private View rootView;
     private RecyclerView rcvHome;
@@ -76,31 +76,51 @@ public class FragmentHome extends Fragment {
 
     private void initView() {
         rcvHome = (RecyclerView) rootView.findViewById(R.id.rcv_home);
-        rcvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        rcvHome.setLayoutManager(linearLayoutManager);
+
         rcvHome.hasFixedSize();
     }
 
-    private void initVar(){
-        listData=new ArrayList<>();
+    private void initVar() {
+        listData = new ArrayList<>();
         listData.addAll(DataSupport.findAll(HtmlImage.class));
-        for (HtmlImage h:listData){
-            Log.i(TAG, "initVar: "+h.getImgPath()+" "+h.getHtmlPath()+" "+h.getContent()+" "+h.getTitle());
+        if (listData.size()!=0){
+            rcvHome.smoothScrollToPosition(listData.size()-1);
+        }
+        for (HtmlImage h : listData) {
+            Log.i(TAG, "initVar: " + h.getImgPath() + " " + h.getHtmlPath() + " " + h.getContent() + " " + h.getTitle());
         }
 
-        homeRcvAdapter=new HomeRcvAdapter(listData);
+        homeRcvAdapter = new HomeRcvAdapter(listData);
         rcvHome.setAdapter(homeRcvAdapter);
     }
-    private void initAction(){
+
+    private void initAction() {
 
     }
 
 
-    private class HomeReceiver extends BroadcastReceiver{
+    private class HomeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            HtmlImage htmlImage= (HtmlImage) intent.getBundleExtra("data").get("htmlImg");
-            homeRcvAdapter.insertItem(htmlImage);
+            String type = intent.getStringExtra("type");
+            switch (type) {
+                case "add_item": {
+                    HtmlImage htmlImage = (HtmlImage) intent.getBundleExtra("data").get("htmlImg");
+                    homeRcvAdapter.insertItem(htmlImage);
+                    rcvHome.smoothScrollToPosition(listData.size()-1);
+                }
+                break;
+                case "save_file_finish": {
+                    homeRcvAdapter.refreshLastItem();
+                }
+                break;
+            }
+
+
         }
     }
 
@@ -110,7 +130,7 @@ public class FragmentHome extends Fragment {
         localBroadcastManager.unregisterReceiver(homeReceiver);
     }
 
-    public static LocalBroadcastManager getLocalBroadcastManager(){
+    public static LocalBroadcastManager getLocalBroadcastManager() {
         return localBroadcastManager;
     }
 }

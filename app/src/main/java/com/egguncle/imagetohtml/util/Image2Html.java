@@ -152,6 +152,7 @@ public class Image2Html {
         String htmlStr = "<html>\n" +
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">"+
                 "    <title>" + title + " </title>\n" +
                 "    <style type=\"text/css\">\n" +
                 "        body {\n" +

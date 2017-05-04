@@ -5,9 +5,9 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/space_s"
     card_view:cardCornerRadius="4dp"
-    android:clickable="true"
-    android:background="@drawable/card_foreground"
-    >
+    android:background="@drawable/card_foreground">
+
+
 
    <LinearLayout
        android:layout_width="match_parent"
@@ -27,5 +27,14 @@
            android:id="@+id/iv_home_item"
            />
    </LinearLayout>
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:layout_margin="@dimen/space_s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone"
+        android:id="@+id/prg_item"
+        />
 
 </android.support.v7.widget.CardView>

@@ -1,10 +1,17 @@
 package com.egguncle.imagetohtml.util;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
+import com.egguncle.imagetohtml.ui.activity.HomeActivity;
+import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -103,6 +110,10 @@ public class FileUtil {
                 String htmlStr = image2Html.imageToHtml(filePath, 10, title, content);
                 FileUtil fileUtil = new FileUtil();
                 fileUtil.creatFile(htmlName, htmlStr);
+
+                Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
+                intent.putExtra("type","save_file_finish");
+                FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
             }
         }).start();
 
@@ -118,6 +129,39 @@ public class FileUtil {
         }
 
         return path;
+    }
+
+    public static void saveBitmap(final Bitmap bitmap){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) // 判断是否可以对SDcard进行操作
+                {    // 获取SDCard指定目录下
+                    String sdCardDir = Environment.getExternalStorageDirectory() + "/image2Html/image/";
+                    File dirFile = new File(sdCardDir);  //目录转化成文件夹
+                    if (!dirFile.exists()) {             //如果不存在，那就建立这个文件夹
+                        dirFile.mkdirs();
+                    }
+                    File file = new File(sdCardDir, System.currentTimeMillis() + ".jpg");// 在SDcard的目录下创建图片文,以当前时间为其命名
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onOptionsItemSelected: save success");
+                }
+            }
+        }).start();
+
     }
 
 
