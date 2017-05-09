@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
@@ -40,8 +39,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
 
     @Override
     public HomeVideHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HomeVideHolder holderView = new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
-        return holderView;
+        return new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
     }
 
     @Override

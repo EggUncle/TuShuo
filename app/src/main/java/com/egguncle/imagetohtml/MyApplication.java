@@ -1,6 +1,5 @@
 package com.egguncle.imagetohtml;
 
-import android.app.Application;
 import android.content.Context;
 
 import org.litepal.LitePalApplication;

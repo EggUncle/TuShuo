@@ -1,7 +1,6 @@
 package com.egguncle.imagetohtml.ui.activity;
 
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;

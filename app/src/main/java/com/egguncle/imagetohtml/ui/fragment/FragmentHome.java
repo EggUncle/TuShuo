@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class FragmentHome extends Fragment {
     //广播相关
     private FragmentHome.HomeReceiver homeReceiver;
     public static LocalBroadcastManager localBroadcastManager;
-    private IntentFilter intentFilter;
     public final static String HOME_BROADCAST = "com.egguncle.imagetohtml.HOME_BOROADCAST";
 
 
@@ -57,7 +55,7 @@ public class FragmentHome extends Fragment {
 
         //广播相关
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(HOME_BROADCAST);
         homeReceiver = new FragmentHome.HomeReceiver();
         localBroadcastManager.registerReceiver(homeReceiver, intentFilter);

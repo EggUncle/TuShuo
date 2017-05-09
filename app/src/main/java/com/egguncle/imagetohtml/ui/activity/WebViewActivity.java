@@ -20,7 +20,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.FileUtil;
 
 
@@ -35,14 +34,11 @@ public class WebViewActivity extends BaseActivity {
     private WebView webview;
     //要去加载的html地址
     private String htmlUrl;
-    //标题
-    private String title;
 
 
     //广播相关
     private WebViewActivity.WebReceiver webReceiver;
     public static LocalBroadcastManager localBroadcastManager;
-    private IntentFilter intentFilter;
     public final static String WEB_ACT_BROADCAST = "com.egguncle.imagetohtml.WEB_ACT_BROADCAST";
     @Override
     void initView() {
@@ -79,7 +75,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     void initVar() {
         htmlUrl = getIntent().getStringExtra("url");
-        title = getIntent().getStringExtra("title");
+        String title = getIntent().getStringExtra("title");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -87,7 +83,7 @@ public class WebViewActivity extends BaseActivity {
 
         //广播相关
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WEB_ACT_BROADCAST);
         webReceiver = new WebViewActivity.WebReceiver();
         localBroadcastManager.registerReceiver(webReceiver, intentFilter);

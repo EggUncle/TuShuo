@@ -23,7 +23,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/space_m"
         android:gravity="center"
-        android:text="倘若我心中的山水"
+        android:text="@string/load_txt_1"
         android:textSize="@dimen/txt_lx" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/space_m"
         android:gravity="center"
-        android:text="你都能看到"
+        android:text="@string/load_txt_2"
         android:textSize="@dimen/txt_lx" />
 
 </RelativeLayout>

@@ -3,17 +3,12 @@ package com.egguncle.imagetohtml.util;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.egguncle.imagetohtml.MyApplication;
-import com.egguncle.imagetohtml.ui.activity.HomeActivity;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;

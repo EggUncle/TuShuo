@@ -26,10 +26,9 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, String> {
         String title = params[1];
         String content = params[2];
         FileUtil fileUtil = new FileUtil();
-        String path = fileUtil.saveFile(filePath, title, content);
 
 
-        return path;
+        return fileUtil.saveFile(filePath, title, content);
     }
 
     /**

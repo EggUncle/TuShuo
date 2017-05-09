@@ -1,12 +1,10 @@
 package com.egguncle.imagetohtml.util;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 
 
@@ -152,7 +150,7 @@ public class Image2Html {
      */
     public static String getHtml(StringBuilder strInput, String title, int size) {
 
-        String htmlStr = "<html>\n" +
+        return "<html>\n" +
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
            //   "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"+
@@ -180,8 +178,6 @@ public class Image2Html {
                 "</div>\n" +
                 "</body>\n" +
                 "</html>";
-
-        return htmlStr;
 
     }
 
