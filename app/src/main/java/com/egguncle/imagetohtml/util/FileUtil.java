@@ -2,7 +2,9 @@ package com.egguncle.imagetohtml.util;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
@@ -146,7 +148,8 @@ public class FileUtil {
                     if (!dirFile.exists()) {             //如果不存在，那就建立这个文件夹
                         dirFile.mkdirs();
                     }
-                    File file = new File(sdCardDir, System.currentTimeMillis() + ".jpg");// 在SDcard的目录下创建图片文,以当前时间为其命名
+                    String fileName=System.currentTimeMillis() + ".jpg";
+                    File file = new File(sdCardDir, fileName);// 在SDcard的目录下创建图片文,以当前时间为其命名
                     FileOutputStream out = null;
                     try {
                         out = new FileOutputStream(file);
@@ -166,6 +169,15 @@ public class FileUtil {
                     Intent intent=new Intent(WebViewActivity.WEB_ACT_BROADCAST);
                     intent.putExtra("path",file.getPath());
                     WebViewActivity.getLocalBroadcastManager().sendBroadcast(intent);
+
+                    //把文件保存到系统图库
+                    try {
+                        MediaStore.Images.Media.insertImage(MyApplication.getContext().getContentResolver(),
+                                file.getPath(),fileName , null);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                   MyApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
                 }
             }
         }).start();

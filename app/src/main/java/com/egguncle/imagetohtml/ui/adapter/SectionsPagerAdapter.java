@@ -10,9 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.ui.activity.HomeActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
-import com.egguncle.imagetohtml.ui.fragment.FragmentOther;
+import com.egguncle.imagetohtml.ui.fragment.FragmentStars;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -30,7 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new FragmentHome();
             case 1:
-                return new FragmentOther();
+                return new FragmentStars();
         }
 
        return null;
