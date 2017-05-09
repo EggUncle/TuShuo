@@ -77,7 +77,7 @@ public class FragmentHome extends Fragment {
     private void initView() {
         rcvHome = (RecyclerView) rootView.findViewById(R.id.rcv_home);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setReverseLayout(true);
+      //  linearLayoutManager.setReverseLayout(true);
         rcvHome.setLayoutManager(linearLayoutManager);
 
         rcvHome.hasFixedSize();
@@ -86,12 +86,12 @@ public class FragmentHome extends Fragment {
     private void initVar() {
         listData = new ArrayList<>();
         listData.addAll(DataSupport.findAll(HtmlImage.class));
-        if (listData.size()!=0){
-            rcvHome.smoothScrollToPosition(listData.size()-1);
-        }
-        for (HtmlImage h : listData) {
-            Log.i(TAG, "initVar: " + h.getImgPath() + " " + h.getHtmlPath() + " " + h.getContent() + " " + h.getTitle());
-        }
+//        if (listData.size()!=0){
+//            rcvHome.smoothScrollToPosition(listData.size()-1);
+//        }
+//        for (HtmlImage h : listData) {
+//            Log.i(TAG, "initVar: " + h.getImgPath() + " " + h.getHtmlPath() + " " + h.getContent() + " " + h.getTitle());
+//        }
 
         homeRcvAdapter = new HomeRcvAdapter(listData);
         rcvHome.setAdapter(homeRcvAdapter);

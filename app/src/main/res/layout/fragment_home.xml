@@ -5,6 +5,7 @@
 
     android:paddingLeft="@dimen/space_s"
     android:paddingRight="@dimen/space_s"
+    android:paddingBottom="@dimen/space_s"
 
     tools:context="com.egguncle.imagetohtml.ui.fragment.FragmentHome">
 

@@ -46,11 +46,17 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
 
     @Override
     public void onBindViewHolder(final HomeVideHolder holder, final int position) {
-        Glide.with(holder.itemView.getContext()).load(listData.get(position).getImgPath()).centerCrop().into(holder.imgHomeItem);
+        Glide.with(holder.itemView.getContext()).load(listData.get(position).getImgPath()).centerCrop().into(holder.ivHomeItem);
 
         final HtmlImage htmlImage = listData.get(position);
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
+
+        if ("".equals(title)){
+            holder.tvHomeItem.setVisibility(View.GONE);
+        }else{
+            holder.tvHomeItem.setText(title);
+        }
 
         File file = new File(htmlPath);
         //当列表项生成的时候，对应的htmlpath里的图片可能还没有生成
@@ -93,7 +99,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         }
         file=null;
 
-        holder.ivHomeItem.setText(title);
+
 
     }
 
@@ -132,15 +138,18 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
     }
 
     public class HomeVideHolder extends RecyclerView.ViewHolder {
-        private ImageView imgHomeItem;
-        private TextView ivHomeItem;
+        private ImageView ivHomeItem;
+        private TextView tvHomeItem;
         private ContentLoadingProgressBar prgItem;
+
+
+
 
 
         public HomeVideHolder(View itemView) {
             super(itemView);
-            imgHomeItem = (ImageView) itemView.findViewById(R.id.img_home_item);
-            ivHomeItem = (TextView) itemView.findViewById(R.id.iv_home_item);
+            ivHomeItem = (ImageView) itemView.findViewById(R.id.iv_home_item);
+            tvHomeItem = (TextView) itemView.findViewById(R.id.tv_home_item);
             prgItem = (ContentLoadingProgressBar) itemView.findViewById(R.id.prg_item);
 
         }

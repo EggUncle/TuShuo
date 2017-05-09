@@ -41,6 +41,9 @@ public class Image2Html {
         Bitmap bitmap = zoomBitmap(filePath);
         //用于构造html字符串
         StringBuilder htmlStr = new StringBuilder();
+        if (content.isEmpty()||"".equals(content.replace(" ",""))){
+            content="图说";
+        }
         //将填充内容转换为字符串数组，便于论询填充
         char[] chars = content.toCharArray();
         Log.i(TAG, "imageToHtml: " + bitmap.getWidth() + " " + bitmap.getHeight());
@@ -152,7 +155,7 @@ public class Image2Html {
         String htmlStr = "<html>\n" +
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
-                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">"+
+           //   "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"+
                 "    <title>" + title + " </title>\n" +
                 "    <style type=\"text/css\">\n" +
                 "        body {\n" +
@@ -166,6 +169,8 @@ public class Image2Html {
                 //  "width:" + width + "px;\n" +
                 //   "height:" + height + "px;\n" +
                 // "margin-left:auto;margin-right:auto;" +
+            //    " position: absolute;\n" +
+              //  "    top: 25%;"+
                 "}" +
                 "    </style>\n" +
                 "</head>\n" +

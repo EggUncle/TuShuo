@@ -1,6 +1,7 @@
 package com.egguncle.imagetohtml.ui.activity;
 
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
@@ -79,6 +80,8 @@ public class LoadActivity extends BaseActivity {
 
     @Override
     void initVar() {
+        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024/1024);
+        Log.d("TAG", "Max memory is " + maxMemory + "M");
 
     }
 

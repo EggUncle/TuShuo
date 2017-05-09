@@ -12,4 +12,5 @@
     <string name="no">取消</string>
     <string name="load">生成中，请稍候...</string>
     <string name="action_generate_img">生成图片</string>
+    <string name="action_about">关于</string>
 </resources>

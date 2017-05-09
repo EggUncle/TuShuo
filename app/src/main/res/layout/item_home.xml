@@ -17,14 +17,14 @@
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:layout_weight="1"
-           android:id="@+id/img_home_item"
+           android:id="@+id/iv_home_item"
            />
        <TextView
            android:padding="@dimen/space_s"
            android:layout_marginLeft="@dimen/space_s"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:id="@+id/iv_home_item"
+           android:id="@+id/tv_home_item"
            />
    </LinearLayout>
 

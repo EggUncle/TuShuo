@@ -13,7 +13,6 @@ import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.activity.HomeActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.ui.fragment.FragmentOther;
-import com.egguncle.imagetohtml.ui.fragment.PlaceholderFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

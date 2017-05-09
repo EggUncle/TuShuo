@@ -5,5 +5,5 @@
         android:id="@+id/action_generate_img"
         android:orderInCategory="100"
         android:title="@string/action_generate_img"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

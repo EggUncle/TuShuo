@@ -3,9 +3,13 @@ package com.egguncle.imagetohtml.util;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.ui.activity.HomeActivity;
+import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 
 import java.io.File;
@@ -158,9 +162,14 @@ public class FileUtil {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onOptionsItemSelected: save success");
+                    Log.i(TAG, "run: "+file.getPath());
+                    Intent intent=new Intent(WebViewActivity.WEB_ACT_BROADCAST);
+                    intent.putExtra("path",file.getPath());
+                    WebViewActivity.getLocalBroadcastManager().sendBroadcast(intent);
                 }
             }
         }).start();
+
 
     }
 
