@@ -2,9 +2,13 @@ package com.egguncle.imagetohtml.util;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 
@@ -111,7 +115,7 @@ public class FileUtil {
                 fileUtil.creatFile(htmlName, htmlStr);
 
                 Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                intent.putExtra("type","save_file_finish");
+                intent.putExtra("type", "save_file_finish");
                 FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
             }
         }).start();
@@ -130,18 +134,19 @@ public class FileUtil {
         return path;
     }
 
-    public static void saveBitmap(final Bitmap bitmap){
+    public static void saveBitmap(final Bitmap bitmap) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) // 判断是否可以对SDcard进行操作
                 {    // 获取SDCard指定目录下
-                    String sdCardDir = Environment.getExternalStorageDirectory() + "/image2Html/image/";
+                    String sdCardDir = Environment.getExternalStorageDirectory() + "/Pictures/图说/";
                     File dirFile = new File(sdCardDir);  //目录转化成文件夹
                     if (!dirFile.exists()) {             //如果不存在，那就建立这个文件夹
                         dirFile.mkdirs();
                     }
-                    File file = new File(sdCardDir, System.currentTimeMillis() + ".jpg");// 在SDcard的目录下创建图片文,以当前时间为其命名
+                    String fileName = System.currentTimeMillis() + ".jpg";
+                    File file = new File(sdCardDir, fileName);// 在SDcard的目录下创建图片文,以当前时间为其命名
                     FileOutputStream out = null;
                     try {
                         out = new FileOutputStream(file);
@@ -161,6 +166,13 @@ public class FileUtil {
                     Intent intent=new Intent(WebViewActivity.WEB_ACT_BROADCAST);
                     intent.putExtra("path",file.getPath());
                     WebViewActivity.getLocalBroadcastManager().sendBroadcast(intent);
+
+
+
+                    // 保存后扫描一下文件，及时更新到系统目录
+                    MediaScannerConnection.scanFile(MyApplication.getContext(),
+                            new String[]{sdCardDir+ fileName}, null, null);
+                //    MyApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getPath())));
                 }
             }
         }).start();

@@ -8,6 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
@@ -16,12 +19,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.util.FileUtil;
 
+import static android.webkit.WebView.enableSlowWholeDocumentDraw;
 
 
 /**
@@ -40,6 +45,7 @@ public class WebViewActivity extends BaseActivity {
     private WebViewActivity.WebReceiver webReceiver;
     public static LocalBroadcastManager localBroadcastManager;
     public final static String WEB_ACT_BROADCAST = "com.egguncle.imagetohtml.WEB_ACT_BROADCAST";
+
     @Override
     void initView() {
         webview = (WebView) findViewById(R.id.webview);
@@ -52,6 +58,7 @@ public class WebViewActivity extends BaseActivity {
         //指持获取手势焦点
         webview.requestFocusFromTouch();
         webview.setDrawingCacheEnabled(true);
+
         //支持缩放
         setting.setSupportZoom(true);
         //自适应
@@ -63,7 +70,7 @@ public class WebViewActivity extends BaseActivity {
         //隐藏缩放控件
         setting.setDisplayZoomControls(false);
         //缩放（自适应）
-     //   setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //   setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
 
         webview.loadUrl("file:///" + htmlUrl);
@@ -108,13 +115,28 @@ public class WebViewActivity extends BaseActivity {
         //保存图片
         if (id == R.id.action_generate_img) {
 
-            Picture snapShot = webview.capturePicture();
-           // Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(), snapShot.getHeight(), Bitmap.Config.ARGB_8888);
-            Bitmap bmp = webview.getDrawingCache();
-            Canvas canvas = new Canvas(bmp);
-            snapShot.draw(canvas);
-            FileUtil.saveBitmap(bmp);
+            //    Picture snapShot = webview.capturePicture();
+            //    Bitmap bitmap = Bitmap.createBitmap(snapShot.getWidth(), snapShot.getHeight(), Bitmap.Config.ARGB_8888);
+            //获取webview缩放率
+            float scale = webview.getScale();
+            //得到缩放后webview内容的高度
+            int webViewHeight = (int) (webview.getContentHeight()*scale);
+            Log.i(TAG, "onOptionsItemSelected: "+webview.getContentHeight());
+            Log.i(TAG, "onOptionsItemSelected: "+webViewHeight);
+           // Bitmap bitmap = webview.getDrawingCache();
+            Bitmap bitmap = Bitmap.createBitmap(webview.getWidth(),webViewHeight, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            webview.draw(canvas);
+            //   snapShot.draw(canvas);
 
+
+//            View view  = this.getWindow().getDecorView();
+//            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            view.draw(canvas);
+
+
+            FileUtil.saveBitmap(bitmap);
 
 
             return true;
@@ -129,16 +151,16 @@ public class WebViewActivity extends BaseActivity {
         localBroadcastManager.unregisterReceiver(webReceiver);
     }
 
-    private class WebReceiver extends BroadcastReceiver{
+    private class WebReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String path=intent.getStringExtra("path");
-            Snackbar.make(webview,"已保存至:"+path,Snackbar.LENGTH_SHORT).show();
+            String path = intent.getStringExtra("path");
+            Snackbar.make(webview, "已保存至:" + path, Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    public static LocalBroadcastManager getLocalBroadcastManager(){
+    public static LocalBroadcastManager getLocalBroadcastManager() {
         return localBroadcastManager;
     }
 }

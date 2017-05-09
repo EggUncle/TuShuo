@@ -39,8 +39,8 @@ public class Image2Html {
         Bitmap bitmap = zoomBitmap(filePath);
         //用于构造html字符串
         StringBuilder htmlStr = new StringBuilder();
-        if (content.isEmpty()||"".equals(content.replace(" ",""))){
-            content="图说";
+        if (content.isEmpty() || "".equals(content.replace(" ", ""))) {
+            content = "图说";
         }
         //将填充内容转换为字符串数组，便于论询填充
         char[] chars = content.toCharArray();
@@ -153,7 +153,7 @@ public class Image2Html {
         return "<html>\n" +
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
-           //   "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"+
+                //   "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"+
                 "    <title>" + title + " </title>\n" +
                 "    <style type=\"text/css\">\n" +
                 "        body {\n" +
@@ -162,19 +162,22 @@ public class Image2Html {
                 "            background-color: #000000;\n" +
                 "            font-family: monospace;\n" +
                 "        }\n" +
+
                 "div{" +
                 "white-space:nowrap;\n" +
+
                 //  "width:" + width + "px;\n" +
                 //   "height:" + height + "px;\n" +
                 // "margin-left:auto;margin-right:auto;" +
-            //    " position: absolute;\n" +
-              //  "    top: 25%;"+
+                //    " position: absolute;\n" +
+                //  "    top: 25%;"+
                 "}" +
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<div>"
-                + strInput +
+
+                "<div>" +
+                strInput +
                 "</div>\n" +
                 "</body>\n" +
                 "</html>";
