@@ -38,7 +38,10 @@ public class FragmentStars extends Fragment {
 
     private void initView() {
         textStars= (TextStars) rootView.findViewById(R.id.text_stars);
-        textStars.add("测试");
+
+        for (int i=0;i<100;i++){
+            textStars.add("测试");
+        }
     }
 
     private void initVar(){

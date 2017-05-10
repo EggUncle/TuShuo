@@ -63,6 +63,16 @@ public class Image2Html {
                 int blue = Color.blue(pixel);
                 int alpha = Color.alpha(pixel);
 
+                if (red+20<255){
+                    red+=20;
+                }
+                if (green+20<255){
+                    green+=20;
+                }
+                if (blue+20<255){
+                    blue+=20;
+                }
+
                 htmlStr.append("<font style=color:rgba(" + red + "," + green + "," + blue + "," + alpha + ") >" + chars[n++ % content.length()] + "</font>");
 
             }
