@@ -3,6 +3,7 @@ package com.egguncle.imagetohtml.ui.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +41,14 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
 
     @Override
     public HomeVideHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HomeVideHolder holderView = new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
+        HomeVideHolder holderView = null;
+        if (Build.VERSION.SDK_INT > 19) {
+            //4.4以上
+            holderView= new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
+        }else{
+            //4.4以及4.4以下
+            holderView= new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_4x, parent, false));
+        }
         return holderView;
     }
 
@@ -52,9 +60,9 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
 
-        if ("".equals(title)){
+        if ("".equals(title)) {
             holder.tvHomeItem.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.tvHomeItem.setText(title);
         }
 
@@ -64,7 +72,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         if (!file.exists()) {
             holder.prgItem.setVisibility(View.VISIBLE);
             holder.itemView.setClickable(false);
-        }else{
+        } else {
             holder.prgItem.setVisibility(View.GONE);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,8 +105,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                 }
             });
         }
-        file=null;
-
+        file = null;
 
 
     }
@@ -116,8 +123,8 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
     /**
      * 当文件已经生成完毕的时候，刷新列表项
      */
-    public void refreshLastItem(){
-        this.notifyItemChanged(listData.size()-1);
+    public void refreshLastItem() {
+        this.notifyItemChanged(listData.size() - 1);
     }
 
     /**
@@ -141,9 +148,6 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         private ImageView ivHomeItem;
         private TextView tvHomeItem;
         private ContentLoadingProgressBar prgItem;
-
-
-
 
 
         public HomeVideHolder(View itemView) {

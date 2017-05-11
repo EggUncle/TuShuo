@@ -1,6 +1,7 @@
 package com.egguncle.imagetohtml.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,9 +40,17 @@ public class FragmentStars extends Fragment {
     private void initView() {
         textStars= (TextStars) rootView.findViewById(R.id.text_stars);
 
-        for (int i=0;i<100;i++){
-            textStars.add("测试");
-        }
+        final Handler handler=new Handler();
+        Runnable r=new Runnable() {
+            @Override
+            public void run() {
+                textStars.add("测试");
+                handler.postDelayed(this,2000);
+            }
+        };
+        handler.postDelayed(r,2000);
+
+
     }
 
     private void initVar(){
