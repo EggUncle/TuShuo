@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 
@@ -25,6 +26,7 @@ import android.webkit.WebView;
 
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.util.FileUtil;
+import com.egguncle.imagetohtml.util.Image2Html;
 
 import static android.webkit.WebView.enableSlowWholeDocumentDraw;
 
@@ -39,7 +41,8 @@ public class WebViewActivity extends BaseActivity {
     private WebView webview;
     //要去加载的html地址
     private String htmlUrl;
-
+    //图片路径
+    private String imgPath;
 
     //广播相关
     private WebViewActivity.WebReceiver webReceiver;
@@ -82,6 +85,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     void initVar() {
         htmlUrl = getIntent().getStringExtra("url");
+        imgPath = getIntent().getStringExtra("imgpath");
         String title = getIntent().getStringExtra("title");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
@@ -120,23 +124,33 @@ public class WebViewActivity extends BaseActivity {
             //获取webview缩放率
             float scale = webview.getScale();
             //得到缩放后webview内容的高度
-            int webViewHeight = (int) (webview.getContentHeight()*scale);
-            Log.i(TAG, "onOptionsItemSelected: "+webview.getContentHeight());
-            Log.i(TAG, "onOptionsItemSelected: "+webViewHeight);
-           // Bitmap bitmap = webview.getDrawingCache();
-            Bitmap bitmap = Bitmap.createBitmap(webview.getWidth(),webViewHeight, Bitmap.Config.ARGB_8888);
+            int webViewHeight = (int) (webview.getContentHeight() * scale);
+            Log.i(TAG, "onOptionsItemSelected: " + webview.getContentHeight());
+            Log.i(TAG, "onOptionsItemSelected: " + webViewHeight);
+            // Bitmap bitmap = webview.getDrawingCache();
+
+            //生成图片并绘制
+            Bitmap bitmap = Bitmap.createBitmap(webview.getWidth(), webViewHeight, Bitmap.Config.ARGB_8888);
+            Log.i(TAG, "onOptionsItemSelected: " + bitmap.getWidth() + " " + bitmap.getHeight());
             Canvas canvas = new Canvas(bitmap);
             webview.draw(canvas);
-            //   snapShot.draw(canvas);
+            //    int imgH=bitmap.getHeight();
+            int imgW = bitmap.getWidth();
 
+            //加载原图的宽高，进行相关计算，对最后生成的图片进行裁切
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(imgPath, opts);
+            int height = opts.outHeight;
+            int width = opts.outWidth;
+            Log.i(TAG, "onOptionsItemSelected: " + width + " " + height);
+            //计算裁切比率
+            float cut = (float) height / (float) width;
+            int imgH = (int) (imgW * cut);
 
-//            View view  = this.getWindow().getDecorView();
-//            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            view.draw(canvas);
+            Bitmap saveBmp= Bitmap.createBitmap(bitmap,0,0,imgW,imgH);
 
-
-            FileUtil.saveBitmap(bitmap);
+            FileUtil.saveBitmap(saveBmp);
 
 
             return true;

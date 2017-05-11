@@ -56,6 +56,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         final HtmlImage htmlImage = listData.get(position);
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
+        final String imgPath=htmlImage.getImgPath();
 
         if ("".equals(title)) {
             holder.tvHomeItem.setVisibility(View.GONE);
@@ -78,6 +79,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                     Intent intent = new Intent(context, WebViewActivity.class);
                     intent.putExtra("url", htmlPath);
                     intent.putExtra("title", title);
+                    intent.putExtra("imgpath",imgPath);
                     context.startActivity(intent);
                 }
             });
@@ -86,7 +88,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                 public boolean onLongClick(View view) {
                     new AlertDialog.Builder(holder.itemView.getContext())
                             .setTitle(holder.itemView.getContext().getResources().getString(R.string.delete))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Log.i(TAG, "onClick: " + DataSupport.deleteAll(HtmlImage.class, "htmlPath = ?", htmlPath));
@@ -94,7 +96,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                                     removeItem(htmlImage);
                                 }
                             })
-                            .setNegativeButton(R.string.no, null)
+                            .setNegativeButton("删除", null)
                             .create()
                             .show();
 
