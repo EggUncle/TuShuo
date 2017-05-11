@@ -96,7 +96,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                                     removeItem(htmlImage);
                                 }
                             })
-                            .setNegativeButton("删除", null)
+                            .setNegativeButton("取消", null)
                             .create()
                             .show();
 
