@@ -19,4 +19,5 @@
     <string name="litepal_rep">litepal: https://github.com/LitePalFramework/LitePal#latest-downloads/</string>
     <string name="load_txt_1">倘若我心中的山水</string>
     <string name="load_txt_2">你都能看到</string>
+    <string name="action_geturl">复制地址</string>
 </resources>

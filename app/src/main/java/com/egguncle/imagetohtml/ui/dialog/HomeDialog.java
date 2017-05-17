@@ -51,10 +51,9 @@ public class HomeDialog {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FileUtil fileUtil = new FileUtil();
                         String title = getInputTitle();
                         String content = getInputContent();
-                        String htmlPath = fileUtil.saveFile(mImgPath, title, content);
+                        String htmlPath = FileUtil.saveFile(mImgPath, title, content);
 
                         //将相关信息存入数据库中
                         HtmlImage  htmlImage = new HtmlImage();

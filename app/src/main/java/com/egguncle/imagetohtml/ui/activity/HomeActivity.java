@@ -107,7 +107,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     void initVar() {
-        FileUtil fileUtil = new FileUtil();
+
         //记录下APP打开过，以后不启动开场动画
         SPUtil spUtil=SPUtil.getInstance(this);
         spUtil.recordingLaunch();

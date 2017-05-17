@@ -26,7 +26,11 @@ public class FileUtil {
 
     private final static String TAG = "FileUtil";
 
-    public FileUtil() {
+    private FileUtil() {
+
+    }
+
+    public static void makeDir(){
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sdCardDir = Environment.getExternalStorageDirectory();
             try {
@@ -47,7 +51,8 @@ public class FileUtil {
      * @param fileName 文件名称
      * @param writeStr 生成的HTML代码
      */
-    public void creatFile(String fileName, String writeStr) {
+    public static void creatFile(String fileName, String writeStr) {
+        FileUtil.makeDir();
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sdCardDir = Environment.getExternalStorageDirectory();
             try {
@@ -79,6 +84,7 @@ public class FileUtil {
      * @return
      */
     public static String getFileUrl(String fileName) {
+        FileUtil.makeDir();
         String url = "";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sdCardDir = Environment.getExternalStorageDirectory();
@@ -102,7 +108,8 @@ public class FileUtil {
      * @param content  填充的文字
      * @return html文件路径
      */
-    public String saveFile(final String filePath, final String title, final String content) {
+    public static String saveFile(final String filePath, final String title, final String content) {
+        FileUtil.makeDir();
         long time = System.currentTimeMillis();
         final String htmlName = time + ".html";
 
@@ -135,6 +142,7 @@ public class FileUtil {
     }
 
     public static void saveBitmap(final Bitmap bitmap) {
+        FileUtil.makeDir();
         new Thread(new Runnable() {
             @Override
             public void run() {

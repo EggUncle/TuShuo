@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="@string/action_generate_img"
         app:showAsAction="always" />
+
+    <item android:id="@+id/action_geturl"
+        android:orderInCategory="100"
+        android:title="@string/action_geturl"
+        app:showAsAction="always"/>
+
 </menu>
