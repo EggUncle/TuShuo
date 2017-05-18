@@ -18,6 +18,7 @@ import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.FileUtil;
+import com.egguncle.imagetohtml.util.NetUtil;
 
 /**
  * Created by egguncle on 17-5-1.
@@ -73,6 +74,9 @@ public class HomeDialog {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("htmlImg", htmlImage);
                         intent.putExtra("data", bundle);
+
+
+
 
                         FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
 
