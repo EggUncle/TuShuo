@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.egguncle.imagetohtml.MyApplication;
+import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 
@@ -17,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Random;
 
 /**
  * Created by egguncle on 17-4-23.
@@ -110,23 +112,10 @@ public class FileUtil {
      */
     public static String saveFile(final String filePath, final String title, final String content) {
         FileUtil.makeDir();
+        //生成随机文件名称
         long time = System.currentTimeMillis();
-        final String htmlName = time + ".html";
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Image2Html image2Html = new Image2Html();
-                String htmlStr = image2Html.imageToHtml(filePath, 10, title, content);
-                FileUtil fileUtil = new FileUtil();
-                fileUtil.creatFile(htmlName, htmlStr);
-
-                Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                intent.putExtra("type", "save_file_finish");
-                FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
-            }
-        }).start();
-
+        Random random=new Random(47);
+        final String htmlName = time +random.nextInt()*1000+ ".html";
 
         String path = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -137,6 +126,29 @@ public class FileUtil {
                 e.printStackTrace();
             }
         }
+
+        final String finalPath = path;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //转换图片并保存
+                String htmlStr = Image2Html.imageToHtml(filePath, 10, title, content);
+                FileUtil fileUtil = new FileUtil();
+                fileUtil.creatFile(htmlName, htmlStr);
+
+                Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
+                intent.putExtra("type", "save_file_finish");
+                intent.putExtra("file_path", finalPath);
+                intent.putExtra("title",title);
+                intent.putExtra("content",content);
+
+
+                FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
+            }
+        }).start();
+
+
+
 
         return path;
     }

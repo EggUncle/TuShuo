@@ -5,11 +5,13 @@
         android:id="@+id/action_generate_img"
         android:orderInCategory="100"
         android:title="@string/action_generate_img"
-        app:showAsAction="always" />
+        android:icon="@drawable/icon_img"
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_geturl"
         android:orderInCategory="100"
+        android:icon="@drawable/icon_link"
         android:title="@string/action_geturl"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

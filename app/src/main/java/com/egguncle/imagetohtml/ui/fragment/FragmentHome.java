@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.HomeRcvAdapter;
+import com.egguncle.imagetohtml.util.NetUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -75,7 +76,7 @@ public class FragmentHome extends Fragment {
     private void initView() {
         rcvHome = (RecyclerView) rootView.findViewById(R.id.rcv_home);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-      //  linearLayoutManager.setReverseLayout(true);
+        //  linearLayoutManager.setReverseLayout(true);
         rcvHome.setLayoutManager(linearLayoutManager);
 
         rcvHome.hasFixedSize();
@@ -109,11 +110,23 @@ public class FragmentHome extends Fragment {
                 case "add_item": {
                     HtmlImage htmlImage = (HtmlImage) intent.getBundleExtra("data").get("htmlImg");
                     homeRcvAdapter.insertItem(htmlImage);
-                    rcvHome.smoothScrollToPosition(listData.size()-1);
+                    rcvHome.smoothScrollToPosition(listData.size() - 1);
+
+
                 }
                 break;
                 case "save_file_finish": {
                     homeRcvAdapter.refreshLastItem();
+                    final String path = intent.getStringExtra("file_path");
+                    final String title = intent.getStringExtra("title");
+                    final String content=intent.getStringExtra("content");
+                    //将html发送到服务器中
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            NetUtil.upLoadHtml(content, title, path);
+                        }
+                    }).start();
                 }
                 break;
             }

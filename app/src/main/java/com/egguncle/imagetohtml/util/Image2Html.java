@@ -17,7 +17,7 @@ public class Image2Html {
 
     private final static String TAG = "Image2Html";
 
-    public Image2Html() {
+    private Image2Html() {
 
     }
 
@@ -31,7 +31,7 @@ public class Image2Html {
      * @param content   填充的文字内容
      * @return
      */
-    public String imageToHtml(String filePath, int blockSize, String title, String content) {
+    public static String imageToHtml(String filePath, int blockSize, String title, String content) {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             throw new RuntimeException("this function should not run on main thread!");
         }
@@ -78,7 +78,7 @@ public class Image2Html {
      * @param filePath
      * @return
      */
-    private Bitmap zoomBitmap(String filePath) {
+    private static Bitmap zoomBitmap(String filePath) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, opts);
@@ -157,7 +157,7 @@ public class Image2Html {
                 "    <title>" + title + " </title>\n" +
                 "    <style type=\"text/css\">\n" +
                 "        body {\n" +
-                "            margin: 0px; padding: 0px; line-height:100%; letter-spacing:0px;\n" +
+                "            margin: 0px; padding: 0px; line-height:100%; letter-spacing:0px;text-align: center; \n" +
                 "            font-size: " + size + " px;\n" +
                 "            background-color: #000000;\n" +
                 "            font-family: monospace;\n" +
@@ -168,9 +168,7 @@ public class Image2Html {
 
                 //  "width:" + width + "px;\n" +
                 //   "height:" + height + "px;\n" +
-                // "margin-left:auto;margin-right:auto;" +
-                //    " position: absolute;\n" +
-                //  "    top: 25%;"+
+                "margin-left:auto;margin-right:auto;" +
                 "}" +
                 "    </style>\n" +
                 "</head>\n" +

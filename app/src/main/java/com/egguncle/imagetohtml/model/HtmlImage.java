@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 转化为html代码的图片的实体的类
  */
 
-public class HtmlImage extends DataSupport implements Serializable{
+public class HtmlImage extends DataSupport implements Serializable {
 
     //图片文件路径
     private String imgPath;
@@ -19,7 +19,16 @@ public class HtmlImage extends DataSupport implements Serializable{
     private String title;
     //填充的文字
     private String content;
+    //html的名字 用于请求时获取对应页面
+    private String htmlName;
 
+    public String getHtmlName() {
+        return htmlName;
+    }
+
+    public void setHtmlName(String htmlName) {
+        this.htmlName = htmlName;
+    }
 
     public String getImgPath() {
         return imgPath;

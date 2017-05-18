@@ -1,6 +1,8 @@
 package com.egguncle.imagetohtml.ui.activity;
 
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,6 +29,7 @@ import android.webkit.WebView;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.util.FileUtil;
 import com.egguncle.imagetohtml.util.Image2Html;
+import com.egguncle.imagetohtml.util.NetUtil;
 
 import static android.webkit.WebView.enableSlowWholeDocumentDraw;
 
@@ -43,6 +46,8 @@ public class WebViewActivity extends BaseActivity {
     private String htmlUrl;
     //图片路径
     private String imgPath;
+    //html文件名
+    private String htmlName;
 
     //广播相关
     private WebViewActivity.WebReceiver webReceiver;
@@ -86,6 +91,7 @@ public class WebViewActivity extends BaseActivity {
     void initVar() {
         htmlUrl = getIntent().getStringExtra("url");
         imgPath = getIntent().getStringExtra("imgpath");
+        htmlName=getIntent().getStringExtra("html_name");
         String title = getIntent().getStringExtra("title");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
@@ -154,7 +160,13 @@ public class WebViewActivity extends BaseActivity {
 
 
             return true;
+        }else if(id==R.id.action_geturl){
+            ClipboardManager clipboardManager= (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData=ClipData.newPlainText("test", NetUtil.HTML_URL+htmlName);
+            clipboardManager.setPrimaryClip(clipData);
+            Snackbar.make(webview,"已将页面链接复制到剪贴板",Snackbar.LENGTH_SHORT).show();
         }
+
 
         return super.onOptionsItemSelected(item);
     }

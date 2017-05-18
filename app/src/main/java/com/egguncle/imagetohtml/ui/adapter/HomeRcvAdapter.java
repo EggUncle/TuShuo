@@ -57,6 +57,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
         final String imgPath=htmlImage.getImgPath();
+        final String htmlName=htmlImage.getHtmlName();
 
         if ("".equals(title)) {
             holder.tvHomeItem.setVisibility(View.GONE);
@@ -80,6 +81,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                     intent.putExtra("url", htmlPath);
                     intent.putExtra("title", title);
                     intent.putExtra("imgpath",imgPath);
+                    intent.putExtra("html_name",htmlName);
                     context.startActivity(intent);
                 }
             });

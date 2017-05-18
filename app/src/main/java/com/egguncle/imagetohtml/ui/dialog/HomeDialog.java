@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,6 +27,8 @@ import com.egguncle.imagetohtml.util.NetUtil;
  */
 
 public class HomeDialog {
+
+    private final static String TAG = "HomeDialog";
 
     private Context mContext;
 
@@ -55,13 +58,16 @@ public class HomeDialog {
                         String title = getInputTitle();
                         String content = getInputContent();
                         String htmlPath = FileUtil.saveFile(mImgPath, title, content);
-
+                        String htmlName = htmlPath.substring(htmlPath.lastIndexOf('/')+1, htmlPath.lastIndexOf('.'));
+                        Log.i(TAG, "onClick: "+htmlName);
                         //将相关信息存入数据库中
-                        HtmlImage  htmlImage = new HtmlImage();
+                        HtmlImage htmlImage = new HtmlImage();
                         htmlImage.setImgPath(mImgPath);
                         htmlImage.setTitle(title);
                         htmlImage.setContent(content);
                         htmlImage.setHtmlPath(htmlPath);
+                        htmlImage.setHtmlName(htmlName);
+
 
                         if (htmlPath != null) {
                             htmlImage.save();
@@ -70,12 +76,10 @@ public class HomeDialog {
 
                         //将htmlImg实例包装到bundle中，使用广播发送出去
                         Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                        intent.putExtra("type","add_item");
+                        intent.putExtra("type", "add_item");
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("htmlImg", htmlImage);
                         intent.putExtra("data", bundle);
-
-
 
 
                         FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
