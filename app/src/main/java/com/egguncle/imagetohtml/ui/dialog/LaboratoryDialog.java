@@ -1,10 +1,9 @@
 package com.egguncle.imagetohtml.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,14 +19,12 @@ import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.FileUtil;
-import com.egguncle.imagetohtml.util.NetUtil;
 
 /**
- * Created by egguncle on 17-5-1.
- * home页面点击设置图片以后弹出的对话框
+ * Created by egguncle on 17-5-20.
  */
 
-public class HomeDialog extends BaseDialog{
+public class LaboratoryDialog extends BaseDialog {
 
     private final static String TAG = "HomeDialog";
 
@@ -37,19 +35,27 @@ public class HomeDialog extends BaseDialog{
     private TextView tvImgpath;
     private TextInputLayout tilTitle;
     private TextInputLayout tilContent;
+    private TextView tvImgSize;
+    private SeekBar sbImgSize;
+    private TextView tvTxtSize;
+    private SeekBar sbTxtSize;
+    private TextView tvRgbDebug;
+    private SeekBar sbRgbDebug;
     private ImageView ivDialogImg;
+
+
     private String mImgPath;
 
-
-    public HomeDialog(Context context) {
+    public LaboratoryDialog(Context context) {
         mContext = context;
         createDialog(context);
     }
 
+
     @Override
     void createDialog(final Context context) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        rootView = inflater.inflate(R.layout.dialog_home, null);
+        rootView = inflater.inflate(R.layout.dialog_laboratory, null);
         new AlertDialog.Builder(context)
                 .setView(rootView)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -58,8 +64,8 @@ public class HomeDialog extends BaseDialog{
                         String title = getInputTitle();
                         String content = getInputContent();
                         String htmlPath = FileUtil.saveFile(mImgPath, title, content);
-                        String htmlName = htmlPath.substring(htmlPath.lastIndexOf('/')+1, htmlPath.lastIndexOf('.'));
-                        Log.i(TAG, "onClick: "+htmlName);
+                        String htmlName = htmlPath.substring(htmlPath.lastIndexOf('/') + 1, htmlPath.lastIndexOf('.'));
+                        Log.i(TAG, "onClick: " + htmlName);
                         //将相关信息存入数据库中
                         HtmlImage htmlImage = new HtmlImage();
                         htmlImage.setImgPath(mImgPath);
@@ -102,20 +108,80 @@ public class HomeDialog extends BaseDialog{
     }
 
     @Override
-     void initView() {
+    void initView() {
         tvImgpath = (TextView) rootView.findViewById(R.id.tv_imgpath);
         tilTitle = (TextInputLayout) rootView.findViewById(R.id.til_title);
         tilContent = (TextInputLayout) rootView.findViewById(R.id.til_content);
+        tvImgSize = (TextView) rootView.findViewById(R.id.tv_img_size);
+        sbImgSize = (SeekBar) rootView.findViewById(R.id.sb_img_size);
+        tvTxtSize = (TextView) rootView.findViewById(R.id.tv_txt_size);
+        sbTxtSize = (SeekBar) rootView.findViewById(R.id.sb_txt_size);
+        tvRgbDebug = (TextView) rootView.findViewById(R.id.tv_rgb_debug);
+        sbRgbDebug = (SeekBar) rootView.findViewById(R.id.sb_rgb_debug);
         ivDialogImg = (ImageView) rootView.findViewById(R.id.iv_dialog_img);
+    }
+
+    @Override
+    void initVar() {
+        sbImgSize.setProgress(750);
+        tvImgSize.setText(mContext.getResources().getString(R.string.image_size) + 750);
+        sbTxtSize.setProgress(5);
+        tvTxtSize.setText(mContext.getResources().getString(R.string.txt_size) + 5);
+        //   sbRgbDebug.setProgress(0);
+        tvRgbDebug.setText(mContext.getResources().getString(R.string.debug_img_color)+0);
 
     }
-    @Override
-     void initVar() {
 
-    }
     @Override
-     void initAction() {
+    void initAction() {
+        sbImgSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                tvImgSize.setText(mContext.getResources().getString(R.string.image_size) + i);
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        sbTxtSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                tvTxtSize.setText(mContext.getResources().getString(R.string.txt_size) + i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        sbRgbDebug.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                tvRgbDebug.setText(mContext.getResources().getString(R.string.debug_img_color) + i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     /**

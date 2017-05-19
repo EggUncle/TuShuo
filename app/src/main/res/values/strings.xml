@@ -20,4 +20,22 @@
     <string name="load_txt_1">倘若我心中的山水</string>
     <string name="load_txt_2">你都能看到</string>
     <string name="action_geturl">复制地址</string>
+    <string name="background_color">背景颜色</string>
+    <string name="image_size">图片缩放尺寸</string>
+    <string name="txt_size">文字大小</string>
+    <string name="debug_img_color">亮度调整</string>
+    <string name="laboratory">实验性功能</string>
+    <string name="laboratory_swtich">实验性开关</string>
+    <string name="laboratory_about">
+        打开实验性开关后，可以自行设定图片转换成页面时的相关参数，
+        至于最合适的背景颜色、图片缩放尺寸、文字大小和亮度，我自己也在摸索。
+        你可以将参数、原图、生成的图片以及机型发在酷安评论区中，一起来找到相对来说最合适的参数，谢谢~
+        &#x00A;&#x00A;背景颜色：生成页面的背景颜色。（默认为黑色）
+        &#x00A; &#x00A;图片缩放尺寸：将图片进行扩大或缩小，值代表最长的那条边。
+        对于尺寸小的图片，放大可以让生成的页面的文字不至于太少导致无法看清原图效果，
+        但是这个值如果过大，会时生成的页面文字数量过多，导致加载时失去响应甚至是程序崩溃。（默认为750）
+        &#x00A; &#x00A;亮度调整：调整生成的页面的文字亮度。
+        在默认情况下，背景颜色为黑色，导致页面的显示效果偏暗，将这个值调高可以将文字颜色调亮，但是也有可能导致生成的页面文字颜色异常。
+
+    </string>
 </resources>

@@ -10,4 +10,5 @@
     <dimen name="space_s">4dp</dimen>
     <dimen name="logo_size">150dp</dimen>
     <dimen name="txt_lx">24sp</dimen>
+    <dimen name="txt_m">18sp</dimen>
 </resources>

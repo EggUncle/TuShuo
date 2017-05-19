@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +19,7 @@ import android.view.View;
 
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.adapter.SectionsPagerAdapter;
-import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
-import com.egguncle.imagetohtml.util.FileUtil;
+import com.egguncle.imagetohtml.ui.dialog.LaboratoryDialog;
 import com.egguncle.imagetohtml.util.ImageUtil;
 import com.egguncle.imagetohtml.util.SPUtil;
 
@@ -167,8 +165,8 @@ public class HomeActivity extends BaseActivity {
             //若获取到了图片的路径，则生成对应html文件并保存
             //  fileUtil.saveFile(imagePath);
             //弹出对话框
-            HomeDialog dialog = new HomeDialog(this);
-
+        //    HomeDialog dialog = new HomeDialog(this);
+            LaboratoryDialog dialog=new LaboratoryDialog(this);
             dialog.setTvImgpath(imagePath);
             dialog.setIvDialogImg(imagePath);
 
@@ -193,6 +191,9 @@ public class HomeActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(HomeActivity.this,AboutActivity.class));
+            return true;
+        }else if (id ==R.id.action_laboratory){
+            startActivity(new Intent(HomeActivity.this,LaboratoryActivity.class));
             return true;
         }
 

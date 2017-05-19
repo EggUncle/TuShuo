@@ -2,9 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.egguncle.imagetohtml.ui.activity.HomeActivity">
+
+    <item android:id="@+id/action_laboratory"
+        android:orderInCategory="100"
+        android:title="@string/laboratory"
+        app:showAsAction="never"
+        />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_about"
         app:showAsAction="never" />
+
 </menu>
