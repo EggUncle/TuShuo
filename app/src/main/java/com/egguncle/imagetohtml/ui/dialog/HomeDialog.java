@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.egguncle.imagetohtml.AsyncTask.ImgHtmlAsyncTask;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
@@ -26,7 +27,7 @@ import com.egguncle.imagetohtml.util.NetUtil;
  * home页面点击设置图片以后弹出的对话框
  */
 
-public class HomeDialog extends BaseDialog{
+public class HomeDialog extends BaseDialog {
 
     private final static String TAG = "HomeDialog";
 
@@ -57,32 +58,8 @@ public class HomeDialog extends BaseDialog{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String title = getInputTitle();
                         String content = getInputContent();
-                        String htmlPath = FileUtil.saveFile(mImgPath, title, content);
-                        String htmlName = htmlPath.substring(htmlPath.lastIndexOf('/')+1, htmlPath.lastIndexOf('.'));
-                        Log.i(TAG, "onClick: "+htmlName);
-                        //将相关信息存入数据库中
-                        HtmlImage htmlImage = new HtmlImage();
-                        htmlImage.setImgPath(mImgPath);
-                        htmlImage.setTitle(title);
-                        htmlImage.setContent(content);
-                        htmlImage.setHtmlPath(htmlPath);
-                        htmlImage.setHtmlName(htmlName);
-
-
-                        if (htmlPath != null) {
-                            htmlImage.save();
-                        }
-
-
-                        //将htmlImg实例包装到bundle中，使用广播发送出去
-                        Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                        intent.putExtra("type", "add_item");
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("htmlImg", htmlImage);
-                        intent.putExtra("data", bundle);
-
-
-                        FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
+                        ImgHtmlAsyncTask imgHtmlAsyncTask = new ImgHtmlAsyncTask();
+                        imgHtmlAsyncTask.execute(mImgPath, title, content);
 
                     }
                 })
@@ -102,19 +79,21 @@ public class HomeDialog extends BaseDialog{
     }
 
     @Override
-     void initView() {
+    void initView() {
         tvImgpath = (TextView) rootView.findViewById(R.id.tv_imgpath);
         tilTitle = (TextInputLayout) rootView.findViewById(R.id.til_title);
         tilContent = (TextInputLayout) rootView.findViewById(R.id.til_content);
         ivDialogImg = (ImageView) rootView.findViewById(R.id.iv_dialog_img);
 
     }
+
     @Override
-     void initVar() {
+    void initVar() {
 
     }
+
     @Override
-     void initAction() {
+    void initAction() {
 
     }
 
@@ -123,7 +102,8 @@ public class HomeDialog extends BaseDialog{
      *
      * @return
      */
-    private String getInputTitle() {
+    @Override
+    String getInputTitle() {
         return tilTitle.getEditText().getText().toString();
     }
 
@@ -132,7 +112,8 @@ public class HomeDialog extends BaseDialog{
      *
      * @return
      */
-    private String getInputContent() {
+    @Override
+    String getInputContent() {
         return tilContent.getEditText().getText().toString();
     }
 
@@ -141,6 +122,7 @@ public class HomeDialog extends BaseDialog{
      *
      * @param imgPath
      */
+    @Override
     public void setIvDialogImg(String imgPath) {
         Glide.with(mContext).load(imgPath).into(ivDialogImg);
     }
@@ -150,7 +132,8 @@ public class HomeDialog extends BaseDialog{
      *
      * @param imgpath
      */
-    public void setTvImgpath(String imgpath) {
+    @Override
+    public   void setTvImgpath(String imgpath) {
         tvImgpath.setText("图片路径:" + imgpath);
         mImgPath = imgpath;
     }

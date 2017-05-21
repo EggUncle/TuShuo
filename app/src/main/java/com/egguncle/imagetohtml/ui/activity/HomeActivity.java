@@ -18,7 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.egguncle.imagetohtml.R;
+import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.SectionsPagerAdapter;
+import com.egguncle.imagetohtml.ui.dialog.BaseDialog;
+import com.egguncle.imagetohtml.ui.dialog.DialogFactory;
+import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
 import com.egguncle.imagetohtml.ui.dialog.LaboratoryDialog;
 import com.egguncle.imagetohtml.util.ImageUtil;
 import com.egguncle.imagetohtml.util.SPUtil;
@@ -166,6 +170,8 @@ public class HomeActivity extends BaseActivity {
             //  fileUtil.saveFile(imagePath);
             //弹出对话框
         //    HomeDialog dialog = new HomeDialog(this);
+//            Boolean isLaboratory=SPUtil.getInstance(this).isLaboratory();
+//            BaseDialog dialog= DialogFactory.getDialog(this,isLaboratory);
             LaboratoryDialog dialog=new LaboratoryDialog(this);
             dialog.setTvImgpath(imagePath);
             dialog.setIvDialogImg(imagePath);

@@ -15,10 +15,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.egguncle.imagetohtml.AsyncTask.ImgHtmlAsyncTask;
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.model.HtmlImage;
-import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
-import com.egguncle.imagetohtml.util.FileUtil;
+
 
 /**
  * Created by egguncle on 17-5-20.
@@ -27,6 +26,8 @@ import com.egguncle.imagetohtml.util.FileUtil;
 public class LaboratoryDialog extends BaseDialog {
 
     private final static String TAG = "HomeDialog";
+    private final static int MIN_TXT_SIZE = 1;
+    private final static int MIN_IMG_SIZE = 200;
 
     private Context mContext;
 
@@ -63,33 +64,15 @@ public class LaboratoryDialog extends BaseDialog {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String title = getInputTitle();
                         String content = getInputContent();
-                        String htmlPath = FileUtil.saveFile(mImgPath, title, content);
-                        String htmlName = htmlPath.substring(htmlPath.lastIndexOf('/') + 1, htmlPath.lastIndexOf('.'));
-                        Log.i(TAG, "onClick: " + htmlName);
-                        //将相关信息存入数据库中
-                        HtmlImage htmlImage = new HtmlImage();
-                        htmlImage.setImgPath(mImgPath);
-                        htmlImage.setTitle(title);
-                        htmlImage.setContent(content);
-                        htmlImage.setHtmlPath(htmlPath);
-                        htmlImage.setHtmlName(htmlName);
-
-
-                        if (htmlPath != null) {
-                            htmlImage.save();
-                        }
-
-
-                        //将htmlImg实例包装到bundle中，使用广播发送出去
-                        Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                        intent.putExtra("type", "add_item");
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("htmlImg", htmlImage);
-                        intent.putExtra("data", bundle);
-
-
-                        FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
-
+                        String rgbDebug = sbRgbDebug.getProgress() + "";
+                        String txtSize = sbTxtSize.getProgress() + MIN_TXT_SIZE + "";
+                        String imgSize = sbImgSize.getProgress() + MIN_IMG_SIZE + "";
+                        ImgHtmlAsyncTask imgHtmlAsyncTask = new ImgHtmlAsyncTask();
+                        Log.i(TAG, "onClick: 确定");
+                        Log.i(TAG, "onClick: rgb"+rgbDebug);
+                        Log.i(TAG, "onClick: txtSize"+txtSize);
+                        Log.i(TAG, "onClick: imgSize"+imgSize);
+                        imgHtmlAsyncTask.execute(mImgPath, title, content, "0", txtSize, imgSize, rgbDebug);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -123,12 +106,17 @@ public class LaboratoryDialog extends BaseDialog {
 
     @Override
     void initVar() {
-        sbImgSize.setProgress(750);
-        tvImgSize.setText(mContext.getResources().getString(R.string.image_size) + 750);
-        sbTxtSize.setProgress(5);
-        tvTxtSize.setText(mContext.getResources().getString(R.string.txt_size) + 5);
+        sbImgSize.setProgress(550);
+        String initImgStr = mContext.getResources().getString(R.string.image_size) + 750;
+        tvImgSize.setText(initImgStr);
+
+        String initTxtStr = mContext.getResources().getString(R.string.txt_size) + 5;
+        sbTxtSize.setProgress(4);
+        tvTxtSize.setText(initTxtStr);
+
+        String initRgbStr = mContext.getResources().getString(R.string.debug_img_color) + 0;
         //   sbRgbDebug.setProgress(0);
-        tvRgbDebug.setText(mContext.getResources().getString(R.string.debug_img_color)+0);
+        tvRgbDebug.setText(initRgbStr);
 
     }
 
@@ -137,7 +125,8 @@ public class LaboratoryDialog extends BaseDialog {
         sbImgSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvImgSize.setText(mContext.getResources().getString(R.string.image_size) + i);
+                String str = mContext.getResources().getString(R.string.image_size) + (MIN_IMG_SIZE + i);
+                tvImgSize.setText(str);
             }
 
             @Override
@@ -153,7 +142,8 @@ public class LaboratoryDialog extends BaseDialog {
         sbTxtSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvTxtSize.setText(mContext.getResources().getString(R.string.txt_size) + i);
+                String str = mContext.getResources().getString(R.string.txt_size) + (MIN_TXT_SIZE + i);
+                tvTxtSize.setText(str);
             }
 
             @Override
@@ -169,7 +159,8 @@ public class LaboratoryDialog extends BaseDialog {
         sbRgbDebug.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvRgbDebug.setText(mContext.getResources().getString(R.string.debug_img_color) + i);
+                String str = mContext.getResources().getString(R.string.debug_img_color) + i;
+                tvRgbDebug.setText(str);
             }
 
             @Override
@@ -189,7 +180,8 @@ public class LaboratoryDialog extends BaseDialog {
      *
      * @return
      */
-    private String getInputTitle() {
+    @Override
+    String getInputTitle() {
         return tilTitle.getEditText().getText().toString();
     }
 
@@ -198,7 +190,8 @@ public class LaboratoryDialog extends BaseDialog {
      *
      * @return
      */
-    private String getInputContent() {
+    @Override
+    String getInputContent() {
         return tilContent.getEditText().getText().toString();
     }
 
@@ -207,6 +200,7 @@ public class LaboratoryDialog extends BaseDialog {
      *
      * @param imgPath
      */
+    @Override
     public void setIvDialogImg(String imgPath) {
         Glide.with(mContext).load(imgPath).into(ivDialogImg);
     }
@@ -216,7 +210,8 @@ public class LaboratoryDialog extends BaseDialog {
      *
      * @param imgpath
      */
-    public void setTvImgpath(String imgpath) {
+    @Override
+    public  void setTvImgpath(String imgpath) {
         tvImgpath.setText("图片路径:" + imgpath);
         mImgPath = imgpath;
     }

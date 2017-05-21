@@ -17,6 +17,15 @@ public class Image2Html {
 
     private final static String TAG = "Image2Html";
 
+    //默认图片尺寸
+    private final static int DEFAULT_IMG_SIZE=750;
+    //默认取色间距
+    //这是一个有待使用的点，减小图片取色的密度，其实就和修改图片尺寸用固定间距来取色效果是一样的，
+    //但是这样做不需要对图片进行缩放操作，更加节省资源，但是这个间距也应该不能是一个定值
+    private final static int BLOCK_SIZE=10;
+    //文字初始大小
+    private final static int DEFAULT_TXT_SIZE=10;
+
     private Image2Html() {
 
     }
@@ -24,19 +33,24 @@ public class Image2Html {
 
     /**
      * 将图像分块，获取每一块的颜色,并转换成html代码
-     *
-     * @param filePath  文件路径
-     * @param blockSize 分块的大小
-     * @param title     标题
-     * @param content   填充的文字内容
+     * @param filePath 图片文件路径
+     * @param title  页面标题
+     * @param content  填充内容
+     * @param background 背景颜色
+     * @param txtSize 文字大小
+     * @param imgSize 图片缩放大小
+     * @param rgbDebug RGB值调整亮度
      * @return
      */
-    public static String imageToHtml(String filePath, int blockSize, String title, String content) {
+    public static String imageToHtml(String filePath,String title,
+                                     String content,int background,
+                                     int txtSize,int imgSize,int rgbDebug){
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             throw new RuntimeException("this function should not run on main thread!");
         }
+        int blockSize=BLOCK_SIZE;
         //缩放图片
-        Bitmap bitmap = zoomBitmap(filePath);
+        Bitmap bitmap = zoomBitmap(filePath,imgSize);
         //用于构造html字符串
         StringBuilder htmlStr = new StringBuilder();
         if (content.isEmpty() || "".equals(content.replace(" ", ""))) {
@@ -56,10 +70,10 @@ public class Image2Html {
                 int pixel = 0;
                 //获取对应坐标的颜色信息
                 pixel = bitmap.getPixel(j, i);
-                int red = Color.red(pixel);
-                int green = Color.green(pixel);
-                int blue = Color.blue(pixel);
-                int alpha = Color.alpha(pixel);
+                int red = Color.red(pixel)+rgbDebug;
+                int green = Color.green(pixel)+rgbDebug;
+                int blue = Color.blue(pixel)+rgbDebug;
+                int alpha = Color.alpha(pixel)+rgbDebug;
 
                 htmlStr.append("<font style=color:rgba(" + red + "," + green + "," + blue + "," + alpha + ") >" + chars[n++ % content.length()] + "</font>");
 
@@ -69,16 +83,35 @@ public class Image2Html {
 
         //   getHtml(htmlStr,height,width,blockSize);
 
-        return getHtml(htmlStr, title, blockSize);
+        return getHtml(htmlStr, title, txtSize);
+    }
+
+    /**
+     * 将图像分块，获取每一块的颜色,并转换成html代码
+     *
+     * @param filePath  文件路径
+     * @param title     标题
+     * @param content   填充的文字内容
+     * @return
+     */
+    public static String imageToHtml(String filePath, String title, String content) {
+     return imageToHtml(filePath,title,content,0,DEFAULT_TXT_SIZE,DEFAULT_IMG_SIZE,0);
+    }
+
+    private static Bitmap zoomBitmap(String filePath){
+      return   zoomBitmap(filePath,DEFAULT_IMG_SIZE);
     }
 
     /**
      * 缩放图片
      *
-     * @param filePath
+     * @param filePath    图片路径
+     * @param imgSize     图片尺寸（最短的边）
      * @return
      */
-    private static Bitmap zoomBitmap(String filePath) {
+    private static Bitmap zoomBitmap(String filePath,int imgSize) {
+
+        Log.i(TAG, "zoomBitmap: 图片缩放大小为："+imgSize);
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, opts);
@@ -98,7 +131,7 @@ public class Image2Html {
         //如果图片太大，会导致生成的html文件过大，导致加载出现卡吨甚至直接失去响应。
         // 取得想要缩放的matrix参数
         Matrix matrix = new Matrix();
-        float i = Math.max(750 / (float) width, 750 / (float) height);
+        float i = Math.max(imgSize / (float) width, imgSize / (float) height);
         height = (int) (height * i);
         width = (int) (width * i);
         matrix.postScale(i, i);

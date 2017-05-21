@@ -1,91 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/space_m"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_imgpath"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/space_m">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/til_title"
-        >
-        <android.support.design.widget.TextInputEditText
+        <TextView
+            android:id="@+id/tv_imgpath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_title" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/input_title"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:text="@string/background_color" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/til_content"
-        >
-        <android.support.design.widget.TextInputEditText
+        <TextView
+            android:id="@+id/tv_img_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/input_content"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:text="@string/image_size" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/background_color"
-        />
-    <TextView
-        android:id="@+id/tv_img_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/image_size"
-        />
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="2000"
-        android:id="@+id/sb_img_size"
-        />
+        <SeekBar
+            android:id="@+id/sb_img_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="1800" />
 
-    <TextView
-        android:id="@+id/tv_txt_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_size"
-        />
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:id="@+id/sb_txt_size"
-        />
+        <TextView
+            android:id="@+id/tv_txt_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_size" />
 
-    <TextView
-        android:id="@+id/tv_rgb_debug"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/debug_img_color"
-        />
+        <SeekBar
+            android:id="@+id/sb_txt_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="9" />
 
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="50"
-        android:id="@+id/sb_rgb_debug"
-        />
+        <TextView
+            android:id="@+id/tv_rgb_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/debug_img_color" />
 
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="@dimen/dialog_img_size"
-        android:layout_height="@dimen/dialog_img_size"
-        android:id="@+id/iv_dialog_img"
-        />
+        <SeekBar
+            android:id="@+id/sb_rgb_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="50" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_img"
+            android:layout_width="@dimen/dialog_img_size"
+            android:layout_height="@dimen/dialog_img_size"
+            android:layout_gravity="center" />
 
 
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

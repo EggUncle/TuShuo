@@ -32,7 +32,9 @@
         <activity
             android:name=".ui.activity.AboutActivity"
             android:parentActivityName=".ui.activity.HomeActivity" />
-        <activity android:name=".ui.activity.LaboratoryActivity"></activity>
+        <activity android:name=".ui.activity.LaboratoryActivity"
+            android:parentActivityName=".ui.activity.HomeActivity"
+            ></activity>
     </application>
 
 </manifest>

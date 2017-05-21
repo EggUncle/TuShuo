@@ -117,16 +117,6 @@ public class FragmentHome extends Fragment {
                 break;
                 case "save_file_finish": {
                     homeRcvAdapter.refreshLastItem();
-                    final String path = intent.getStringExtra("file_path");
-                    final String title = intent.getStringExtra("title");
-                    final String content=intent.getStringExtra("content");
-                    //将html发送到服务器中
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            NetUtil.upLoadHtml(content, title, path);
-                        }
-                    }).start();
                 }
                 break;
             }
