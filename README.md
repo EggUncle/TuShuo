@@ -1,6 +1,8 @@
 # 图说
 图说，一个将图片转化为文字矩阵的Android APP
 
+下载链接  http://www.coolapk.com/apk/com.egguncle.imagetohtml
+
 ![](https://github.com/EggUncle/Demo/blob/master/markdownimg/Screenshot_20170504-000628.png?raw=true) 
 
 ## 基本功能：
@@ -42,3 +44,6 @@ PS：进行这一步之前先对图片进行了缩放，使图片有一个相对
 ## 更新
 2017-5-5
 增加将webview内容保存为图片文件的功能
+
+2017-5-22
+增加将定制化页面效果的功能，可以设置文字大小，生成的页面尺寸，背景颜色，亮度参数。
