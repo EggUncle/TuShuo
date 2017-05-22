@@ -7,6 +7,8 @@ import android.graphics.Matrix;
 import android.os.Looper;
 import android.util.Log;
 
+import com.egguncle.imagetohtml.model.RgbColor;
+
 
 /**
  * Created by egguncle on 17-4-3.
@@ -36,14 +38,14 @@ public class Image2Html {
      * @param filePath 图片文件路径
      * @param title  页面标题
      * @param content  填充内容
-     * @param background 背景颜色
+     * @param bgRgb    背景颜色
      * @param txtSize 文字大小
      * @param imgSize 图片缩放大小
      * @param rgbDebug RGB值调整亮度
      * @return
      */
     public static String imageToHtml(String filePath,String title,
-                                     String content,int background,
+                                     String content,RgbColor bgRgb,
                                      int txtSize,int imgSize,int rgbDebug){
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             throw new RuntimeException("this function should not run on main thread!");
@@ -83,7 +85,7 @@ public class Image2Html {
 
         //   getHtml(htmlStr,height,width,blockSize);
 
-        return getHtml(htmlStr, title, txtSize);
+        return getHtml(htmlStr, title, txtSize,bgRgb);
     }
 
     /**
@@ -95,7 +97,7 @@ public class Image2Html {
      * @return
      */
     public static String imageToHtml(String filePath, String title, String content) {
-     return imageToHtml(filePath,title,content,0,DEFAULT_TXT_SIZE,DEFAULT_IMG_SIZE,0);
+     return imageToHtml(filePath,title,content,null,DEFAULT_TXT_SIZE,DEFAULT_IMG_SIZE,0);
     }
 
     private static Bitmap zoomBitmap(String filePath){
@@ -173,6 +175,10 @@ public class Image2Html {
 //    }
 
 
+    public static String getHtml(StringBuilder strInput, String title, int size){
+        return getHtml(strInput,title,size,null);
+    }
+
     /**
      * 将生成的html文字与一个简单的html页面拼接
      *
@@ -181,7 +187,15 @@ public class Image2Html {
      * @param size     文字的大小
      * @return
      */
-    public static String getHtml(StringBuilder strInput, String title, int size) {
+    public static String getHtml(StringBuilder strInput, String title, int size, RgbColor rgbColor) {
+        int red=0;
+        int green=0;
+        int blue=0;
+        if (rgbColor!=null){
+            red=rgbColor.getRed();
+            green=rgbColor.getGreen();
+            blue=rgbColor.getBlue();
+        }
 
         return "<html>\n" +
                 "<head>\n" +
@@ -192,7 +206,7 @@ public class Image2Html {
                 "        body {\n" +
                 "            margin: 0px; padding: 0px; line-height:100%; letter-spacing:0px;text-align: center; \n" +
                 "            font-size: " + size + " px;\n" +
-                "            background-color: #000000;\n" +
+                "            background-color:rgba(" + red + "," + green + "," + blue + ",255);\n" +
                 "            font-family: monospace;\n" +
                 "        }\n" +
 

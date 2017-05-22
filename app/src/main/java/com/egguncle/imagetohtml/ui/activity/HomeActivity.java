@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
@@ -26,6 +27,8 @@ import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
 import com.egguncle.imagetohtml.ui.dialog.LaboratoryDialog;
 import com.egguncle.imagetohtml.util.ImageUtil;
 import com.egguncle.imagetohtml.util.SPUtil;
+
+import java.lang.reflect.Method;
 
 public class HomeActivity extends BaseActivity {
 
@@ -170,15 +173,17 @@ public class HomeActivity extends BaseActivity {
             //  fileUtil.saveFile(imagePath);
             //弹出对话框
         //    HomeDialog dialog = new HomeDialog(this);
-//            Boolean isLaboratory=SPUtil.getInstance(this).isLaboratory();
-//            BaseDialog dialog= DialogFactory.getDialog(this,isLaboratory);
-            LaboratoryDialog dialog=new LaboratoryDialog(this);
+            Boolean isLaboratory=SPUtil.getInstance(this).isLaboratory();
+            BaseDialog dialog= DialogFactory.getDialog(this,isLaboratory);
+  //          LaboratoryDialog dialog=new LaboratoryDialog(this);
             dialog.setTvImgpath(imagePath);
             dialog.setIvDialogImg(imagePath);
 
             Log.i(TAG, "onActivityResult: " + imagePath);
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

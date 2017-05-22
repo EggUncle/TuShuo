@@ -36,10 +36,80 @@
                 android:hint="@string/input_content" />
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/background_color" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/background_color" />
+
+            <View
+                android:id="@+id/view_html_bg"
+                android:layout_width="@dimen/bg_color_size"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/space_l" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_r"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/R" />
+
+            <SeekBar
+                android:id="@+id/sb_rgb_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_g"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/G" />
+
+            <SeekBar
+                android:id="@+id/sb_rgb_g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/b" />
+
+            <SeekBar
+                android:id="@+id/sb_rgb_b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="255" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tv_img_size"
@@ -75,7 +145,7 @@
             android:id="@+id/sb_rgb_debug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="50" />
+            android:max="100" />
 
         <ImageView
             android:id="@+id/iv_dialog_img"

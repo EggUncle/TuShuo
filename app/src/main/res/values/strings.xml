@@ -38,4 +38,8 @@
         在默认情况下，背景颜色为黑色，导致页面的显示效果偏暗，将这个值调高可以将文字颜色调亮，但是也有可能导致生成的页面文字颜色异常。
 
     </string>
+    <string name="r">r</string>
+    <string name="b">B</string>
+    <string name="G">G</string>
+    <string name="R">R</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.egguncle.imagetohtml.model.HtmlImage;
+import com.egguncle.imagetohtml.model.RgbColor;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.FileUtil;
 import com.egguncle.imagetohtml.util.Image2Html;
@@ -63,12 +64,15 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
 
 
         //生成html内容的字符串
-        if (params.length == 7) {
-            int background = Integer.parseInt(params[3]);
+        if (params.length >= 7) {
+            int rgbDebug = Integer.parseInt(params[3]);
             int txtSize = Integer.parseInt(params[4]);
             int imgSize = Integer.parseInt(params[5]);
-            int rgbDebug = Integer.parseInt(params[6]);
-            htmlStr = Image2Html.imageToHtml(filePath, title, content, background, txtSize, imgSize, rgbDebug);
+            int rgbR = Integer.parseInt(params[6]);
+            int rgbG=Integer.parseInt(params[7]);
+            int rgbB=Integer.parseInt(params[8]);
+
+            htmlStr = Image2Html.imageToHtml(filePath, title, content,  new RgbColor(rgbR,rgbB,rgbB), txtSize, imgSize, rgbDebug);
         } else {
             htmlStr = Image2Html.imageToHtml(filePath, title, content);
         }
@@ -77,7 +81,7 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
         //将html代码保存至对应路径
         FileUtil.creatFile(htmlPath, htmlStr);
         //将文件上传到服务器中
-     //   NetUtil.upLoadHtml(content, title, htmlPath);
+        NetUtil.upLoadHtml(content, title, htmlPath);
 
 
         return htmlImage;

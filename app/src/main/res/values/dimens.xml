@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="space_l">20dp</dimen>
     <dimen name="space_m">10dp</dimen>
     <dimen name="item_height">160dp</dimen>
     <dimen name="dialog_img_size">100dp</dimen>
@@ -11,4 +12,5 @@
     <dimen name="logo_size">150dp</dimen>
     <dimen name="txt_lx">24sp</dimen>
     <dimen name="txt_m">18sp</dimen>
+    <dimen name="bg_color_size">100dp</dimen>
 </resources>

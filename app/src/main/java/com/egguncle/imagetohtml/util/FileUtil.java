@@ -118,7 +118,7 @@ public class FileUtil {
         FileUtil.makeDir();
         //生成随机文件名称
         long time = System.currentTimeMillis();
-        Random random = new Random(47);
+        Random random = new Random();
         final String htmlName = time + "" + random.nextInt() * 1000 + ".html";
 
         String path = null;

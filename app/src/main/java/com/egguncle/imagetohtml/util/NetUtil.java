@@ -24,10 +24,13 @@ public class NetUtil {
 
     private final static String TAG = "NetUtil";
 
-    //网络请求URL
-    private final static String BASE_URL = "http://112.74.53.14:8080/Img2htmlServer";
+    //网络请求URL  （网络服务器）
+  //  private final static String BASE_URL = "http://112.74.53.14:8080/Img2htmlServer";
+    private final static String BASE_URL = "http://112.74.53.14:8080";
+    //网络请求URL （本地调试）
+  //  private final static String BASE_URL = "http://10.42.0.60:8080";
     private final static String UPLOAD_URL =BASE_URL+ "/api/upload_html";
-    public final static String HTML_URL=BASE_URL+"/htmls/";
+    public final static String HTML_URL=BASE_URL+"/static/htmls/";
 
     private final static MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private final static MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpg");

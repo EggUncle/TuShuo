@@ -160,7 +160,8 @@ public class WebViewActivity extends BaseActivity {
 
 
             return true;
-        }else if(id==R.id.action_geturl){
+        }
+        else if(id==R.id.action_geturl){
             ClipboardManager clipboardManager= (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clipData=ClipData.newPlainText("test", NetUtil.HTML_URL+htmlName);
             clipboardManager.setPrimaryClip(clipData);
