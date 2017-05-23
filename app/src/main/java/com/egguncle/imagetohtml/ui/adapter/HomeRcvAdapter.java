@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
@@ -41,15 +40,13 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
 
     @Override
     public HomeVideHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HomeVideHolder holderView = null;
         if (Build.VERSION.SDK_INT > 19) {
             //4.4以上
-            holderView= new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
-        }else{
-            //4.4以及4.4以下
-            holderView= new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_4x, parent, false));
+            return new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
+        } else {
+            //4.4及以下
+            return new HomeVideHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_4x, parent, false));
         }
-        return holderView;
     }
 
     @Override
@@ -59,6 +56,9 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
         final HtmlImage htmlImage = listData.get(position);
         final String htmlPath = htmlImage.getHtmlPath();
         final String title = htmlImage.getTitle();
+        final String imgPath=htmlImage.getImgPath();
+        final String htmlName=htmlImage.getHtmlName();
+        final String content=htmlImage.getContent();
 
         if ("".equals(title)) {
             holder.tvHomeItem.setVisibility(View.GONE);
@@ -81,6 +81,9 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                     Intent intent = new Intent(context, WebViewActivity.class);
                     intent.putExtra("url", htmlPath);
                     intent.putExtra("title", title);
+                    intent.putExtra("imgpath",imgPath);
+                    intent.putExtra("html_name",htmlName);
+                    intent.putExtra("content",content);
                     context.startActivity(intent);
                 }
             });
@@ -89,7 +92,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                 public boolean onLongClick(View view) {
                     new AlertDialog.Builder(holder.itemView.getContext())
                             .setTitle(holder.itemView.getContext().getResources().getString(R.string.delete))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Log.i(TAG, "onClick: " + DataSupport.deleteAll(HtmlImage.class, "htmlPath = ?", htmlPath));
@@ -97,7 +100,7 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                                     removeItem(htmlImage);
                                 }
                             })
-                            .setNegativeButton(R.string.no, null)
+                            .setNegativeButton("取消", null)
                             .create()
                             .show();
 

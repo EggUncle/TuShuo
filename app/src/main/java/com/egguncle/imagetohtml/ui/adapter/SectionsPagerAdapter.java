@@ -11,13 +11,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
-import com.egguncle.imagetohtml.ui.fragment.FragmentStars;
+import com.egguncle.imagetohtml.ui.fragment.FragmentOther;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+    private final static int PAGE_COUNT=2;
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,7 +31,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new FragmentHome();
             case 1:
-                return new FragmentStars();
+                return new FragmentOther();
         }
 
        return null;
@@ -38,7 +40,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
 
-        return 2;
+        return PAGE_COUNT;
     }
 
     @Override

@@ -7,71 +7,59 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
+import android.view.Window;
 
 import com.egguncle.imagetohtml.R;
+import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.SectionsPagerAdapter;
+import com.egguncle.imagetohtml.ui.dialog.BaseDialog;
+import com.egguncle.imagetohtml.ui.dialog.DialogFactory;
 import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
-import com.egguncle.imagetohtml.util.FileUtil;
-import com.egguncle.imagetohtml.util.Image2Html;
+import com.egguncle.imagetohtml.ui.dialog.LaboratoryDialog;
 import com.egguncle.imagetohtml.util.ImageUtil;
 import com.egguncle.imagetohtml.util.SPUtil;
 
+import java.lang.reflect.Method;
+
 public class HomeActivity extends BaseActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private FloatingActionButton fab;
 
     private final static String TAG = "HomeActivity";
     private static final int SELECT_PHOTO = 0;//调用相册照片
-    private FileUtil fileUtil;
 
     // private String htmlStr;
 
     @Override
     void initView() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         tabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
@@ -124,7 +112,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     void initVar() {
-        fileUtil = new FileUtil();
+
         //记录下APP打开过，以后不启动开场动画
         SPUtil spUtil=SPUtil.getInstance(this);
         spUtil.recordingLaunch();
@@ -184,14 +172,18 @@ public class HomeActivity extends BaseActivity {
             //若获取到了图片的路径，则生成对应html文件并保存
             //  fileUtil.saveFile(imagePath);
             //弹出对话框
-            HomeDialog dialog = new HomeDialog(this);
-
+        //    HomeDialog dialog = new HomeDialog(this);
+            Boolean isLaboratory=SPUtil.getInstance(this).isLaboratory();
+            BaseDialog dialog= DialogFactory.getDialog(this,isLaboratory);
+  //          LaboratoryDialog dialog=new LaboratoryDialog(this);
             dialog.setTvImgpath(imagePath);
             dialog.setIvDialogImg(imagePath);
 
             Log.i(TAG, "onActivityResult: " + imagePath);
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,6 +202,9 @@ public class HomeActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(HomeActivity.this,AboutActivity.class));
+            return true;
+        }else if (id ==R.id.action_laboratory){
+            startActivity(new Intent(HomeActivity.this,LaboratoryActivity.class));
             return true;
         }
 

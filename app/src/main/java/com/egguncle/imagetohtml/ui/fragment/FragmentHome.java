@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.HomeRcvAdapter;
+import com.egguncle.imagetohtml.util.NetUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -43,7 +43,6 @@ public class FragmentHome extends Fragment {
     //广播相关
     private FragmentHome.HomeReceiver homeReceiver;
     public static LocalBroadcastManager localBroadcastManager;
-    private IntentFilter intentFilter;
     public final static String HOME_BROADCAST = "com.egguncle.imagetohtml.HOME_BOROADCAST";
 
 
@@ -57,7 +56,7 @@ public class FragmentHome extends Fragment {
 
         //广播相关
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(HOME_BROADCAST);
         homeReceiver = new FragmentHome.HomeReceiver();
         localBroadcastManager.registerReceiver(homeReceiver, intentFilter);
@@ -77,7 +76,7 @@ public class FragmentHome extends Fragment {
     private void initView() {
         rcvHome = (RecyclerView) rootView.findViewById(R.id.rcv_home);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-      //  linearLayoutManager.setReverseLayout(true);
+        //  linearLayoutManager.setReverseLayout(true);
         rcvHome.setLayoutManager(linearLayoutManager);
 
         rcvHome.hasFixedSize();
@@ -111,7 +110,9 @@ public class FragmentHome extends Fragment {
                 case "add_item": {
                     HtmlImage htmlImage = (HtmlImage) intent.getBundleExtra("data").get("htmlImg");
                     homeRcvAdapter.insertItem(htmlImage);
-                    rcvHome.smoothScrollToPosition(listData.size()-1);
+                    rcvHome.smoothScrollToPosition(listData.size() - 1);
+
+
                 }
                 break;
                 case "save_file_finish": {

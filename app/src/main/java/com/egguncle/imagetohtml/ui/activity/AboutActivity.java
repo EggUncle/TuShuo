@@ -1,8 +1,6 @@
 package com.egguncle.imagetohtml.ui.activity;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.egguncle.imagetohtml.R;
 

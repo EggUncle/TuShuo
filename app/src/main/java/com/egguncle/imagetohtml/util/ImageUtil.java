@@ -54,8 +54,7 @@ public class ImageUtil {
 
     public static String handleImageBeforeKitKat(Intent data) {
         Uri uri = data.getData();
-        String imagePath = getImagePath(uri, null);
-       return imagePath;
+        return getImagePath(uri, null);
     }
 
     private static String getImagePath(Uri uri, String selection) {

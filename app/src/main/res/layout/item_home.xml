@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/space_s"
-    android:background="@drawable/card_foreground"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    android:background="@drawable/card_foreground">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_home_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tv_home_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_s"
-            android:padding="@dimen/space_s" />
-    </LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+       <ImageView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:id="@+id/iv_home_item"
+           />
+       <TextView
+           android:padding="@dimen/space_s"
+           android:layout_marginLeft="@dimen/space_s"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/tv_home_item"
+           />
+   </LinearLayout>
 
     <android.support.v4.widget.ContentLoadingProgressBar
-        android:id="@+id/prg_item"
-        style="?android:attr/progressBarStyleSmall"
+        android:layout_margin="@dimen/space_s"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_s"
-        android:visibility="gone" />
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone"
+        android:id="@+id/prg_item"
+        />
 
 </android.support.v7.widget.CardView>

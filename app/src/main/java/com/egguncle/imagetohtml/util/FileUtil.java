@@ -2,24 +2,24 @@ package com.egguncle.imagetohtml.util;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.egguncle.imagetohtml.MyApplication;
-import com.egguncle.imagetohtml.ui.activity.HomeActivity;
+import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Random;
 
 /**
  * Created by egguncle on 17-4-23.
@@ -29,7 +29,11 @@ public class FileUtil {
 
     private final static String TAG = "FileUtil";
 
-    public FileUtil() {
+    private FileUtil() {
+
+    }
+
+    public static void makeDir() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sdCardDir = Environment.getExternalStorageDirectory();
             try {
@@ -47,27 +51,31 @@ public class FileUtil {
     /**
      * 保存文件
      *
-     * @param fileName 文件名称
+     * @param url      存储的文件的路径
      * @param writeStr 生成的HTML代码
      */
-    public void creatFile(String fileName, String writeStr) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File sdCardDir = Environment.getExternalStorageDirectory();
-            try {
-                Log.i(TAG, "creatFile: " + sdCardDir.getCanonicalPath() + "/image2Html/" + fileName);
-                File file = new File(sdCardDir.getCanonicalPath() + "/image2Html/" + fileName);
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                RandomAccessFile raf = new RandomAccessFile(file, "rwd");
-                raf.seek(file.length());
-                raf.write(writeStr.getBytes());
-                raf.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public static void creatFile(String url, String writeStr) {
+        //该方法为耗时操作，不应在主线程
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            throw new RuntimeException("this function should not run on main thread!");
         }
+        FileUtil.makeDir();
+        try {
+            Log.i(TAG, "creatFile: " + url);
+            File file = new File(url);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            RandomAccessFile raf = new RandomAccessFile(file, "rwd");
+            raf.seek(file.length());
+            raf.write(writeStr.getBytes());
+            raf.close();
+
+           // return file.getPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // return null;
     }
 
     public void writeFile(String writeStr) {
@@ -81,20 +89,21 @@ public class FileUtil {
      * @param fileName
      * @return
      */
-    public static String getFileUrl(String fileName) {
-        String url = "";
+    public static String getFilePath(String fileName) {
+        FileUtil.makeDir();
+        String filePath = "";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File sdCardDir = Environment.getExternalStorageDirectory();
             try {
-                url = sdCardDir.getCanonicalPath() + "/image2Html/" + fileName;
-                Log.i(TAG, "getFileUrl: " + url);
+                filePath = sdCardDir.getCanonicalPath() + "/image2Html/" + fileName;
+                Log.i(TAG, "getFilePath: " + filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
 
-        return url;
+        return filePath;
     }
 
     /**
@@ -105,24 +114,12 @@ public class FileUtil {
      * @param content  填充的文字
      * @return html文件路径
      */
-    public String saveFile(final String filePath, final String title, final String content) {
+    public static String getSaveFile(final String filePath, final String title, final String content) {
+        FileUtil.makeDir();
+        //生成随机文件名称
         long time = System.currentTimeMillis();
-        final String htmlName = time + ".html";
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Image2Html image2Html = new Image2Html();
-                String htmlStr = image2Html.imageToHtml(filePath, 10, title, content);
-                FileUtil fileUtil = new FileUtil();
-                fileUtil.creatFile(htmlName, htmlStr);
-
-                Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
-                intent.putExtra("type","save_file_finish");
-                FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
-            }
-        }).start();
-
+        Random random = new Random();
+        final String htmlName = time + "" + random.nextInt() * 1000 + ".html";
 
         String path = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -133,22 +130,43 @@ public class FileUtil {
                 e.printStackTrace();
             }
         }
+        // return path;
+        final String htmlPath = path;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //转换图片并保存
+                String htmlStr = Image2Html.imageToHtml(filePath, title, content);
+                FileUtil.creatFile(htmlName, htmlStr);
+
+                Intent intent = new Intent(FragmentHome.HOME_BROADCAST);
+                intent.putExtra("type", "save_file_finish");
+                intent.putExtra("file_path", htmlPath);
+                intent.putExtra("title", title);
+                intent.putExtra("content", content);
+
+
+                FragmentHome.getLocalBroadcastManager().sendBroadcast(intent);
+            }
+        }).start();
+
 
         return path;
     }
 
-    public static void saveBitmap(final Bitmap bitmap){
+    public static void saveBitmap(final Bitmap bitmap) {
+        FileUtil.makeDir();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) // 判断是否可以对SDcard进行操作
                 {    // 获取SDCard指定目录下
-                    String sdCardDir = Environment.getExternalStorageDirectory() + "/image2Html/image/";
+                    String sdCardDir = Environment.getExternalStorageDirectory() + "/Pictures/图说/";
                     File dirFile = new File(sdCardDir);  //目录转化成文件夹
                     if (!dirFile.exists()) {             //如果不存在，那就建立这个文件夹
                         dirFile.mkdirs();
                     }
-                    String fileName=System.currentTimeMillis() + ".jpg";
+                    String fileName = System.currentTimeMillis() + ".jpg";
                     File file = new File(sdCardDir, fileName);// 在SDcard的目录下创建图片文,以当前时间为其命名
                     FileOutputStream out = null;
                     try {
@@ -165,19 +183,17 @@ public class FileUtil {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onOptionsItemSelected: save success");
-                    Log.i(TAG, "run: "+file.getPath());
-                    Intent intent=new Intent(WebViewActivity.WEB_ACT_BROADCAST);
-                    intent.putExtra("path",file.getPath());
+                    Log.i(TAG, "run: " + file.getPath());
+                    Intent intent = new Intent(WebViewActivity.WEB_ACT_BROADCAST);
+                    intent.putExtra("type","save_file");
+                    intent.putExtra("path", file.getPath());
                     WebViewActivity.getLocalBroadcastManager().sendBroadcast(intent);
 
-                    //把文件保存到系统图库
-                    try {
-                        MediaStore.Images.Media.insertImage(MyApplication.getContext().getContentResolver(),
-                                file.getPath(),fileName , null);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                   MyApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+
+                    // 保存后扫描一下文件，及时更新到系统目录
+                    MediaScannerConnection.scanFile(MyApplication.getContext(),
+                            new String[]{sdCardDir + fileName}, null, null);
+                    //    MyApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getPath())));
                 }
             }
         }).start();

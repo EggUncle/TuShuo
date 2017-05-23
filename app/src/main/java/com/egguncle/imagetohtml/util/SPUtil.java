@@ -15,6 +15,7 @@ public class SPUtil {
     private static SPUtil instance;
     private static final String SP_NAME = "TuShuo";
     private static final String IS_FIRST= "FIRST";
+    private static final String LABORATORY="LABORATORY";
 
     private SPUtil() {
 
@@ -35,9 +36,12 @@ public class SPUtil {
     public boolean isFirst() {
         return mSharedPreferences.getBoolean(IS_FIRST, true);
     }
+    public boolean isLaboratory(){return mSharedPreferences.getBoolean(LABORATORY,false);}
 
     public void recordingLaunch(){
         mEditor.putBoolean(IS_FIRST,false).commit();
     }
+    public void openLaboratoryMode(){mEditor.putBoolean(LABORATORY,true).commit();}
+    public void closeLaboratoryMode(){mEditor.putBoolean(LABORATORY,false).commit();}
 
 }
