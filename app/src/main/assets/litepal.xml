@@ -2,7 +2,7 @@
 <litepal>
     <dbname value="HtmlImageDB" />
 
-    <version value="2" />
+    <version value="4" />
 
     <list>
         <mapping class="com.egguncle.imagetohtml.model.HtmlImage" />

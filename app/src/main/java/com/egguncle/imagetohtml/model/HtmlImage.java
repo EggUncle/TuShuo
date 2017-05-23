@@ -22,6 +22,30 @@ public class HtmlImage extends DataSupport implements Serializable {
     //html的名字 用于请求时获取对应页面
     private String htmlName;
 
+    //html文件是否上传了 0 没上传 1上传了
+    private int isUpLoad;
+
+    //是否在实验性状态下生成
+    private int isLaboratory;
+
+    public int getIsLaboratory() {
+        return isLaboratory;
+    }
+
+    public void setIsLaboratory(int isLaboratory) {
+        this.isLaboratory = isLaboratory;
+    }
+
+    public int isUpLoad() {
+        return isUpLoad;
+    }
+
+    public void setUpLoad(int upLoad) {
+        isUpLoad = upLoad;
+    }
+
+
+
     public String getHtmlName() {
         return htmlName;
     }

@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/activity_horizontal_margin"
         android:text="@string/project_rep"
-
         />
 
     <TextView
@@ -34,6 +33,22 @@
         android:autoLink="all"
         android:paddingTop="@dimen/space_m"
         android:text="@string/litepal_rep" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        android:paddingTop="@dimen/space_m"
+        android:text="@string/okhttp_rep" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        android:paddingTop="@dimen/space_m"
+        android:text="@string/okio_rep" />
 
 
 </LinearLayout>

@@ -185,6 +185,7 @@ public class FileUtil {
                     Log.i(TAG, "onOptionsItemSelected: save success");
                     Log.i(TAG, "run: " + file.getPath());
                     Intent intent = new Intent(WebViewActivity.WEB_ACT_BROADCAST);
+                    intent.putExtra("type","save_file");
                     intent.putExtra("path", file.getPath());
                     WebViewActivity.getLocalBroadcastManager().sendBroadcast(intent);
 

@@ -5,14 +5,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.egguncle.imagetohtml.MyApplication;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.model.RgbColor;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.FileUtil;
 import com.egguncle.imagetohtml.util.Image2Html;
 import com.egguncle.imagetohtml.util.NetUtil;
+import com.egguncle.imagetohtml.util.SPUtil;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by egguncle on 17-5-2.
@@ -39,11 +42,17 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
         String htmlStr = null;
 
         //生成随机文件名称
-        long time = System.currentTimeMillis();
-        Random random = new Random(47);
-        String htmlName = time + "" + random.nextInt() * 1000 + ".html";
+//        long time = System.currentTimeMillis();
+//        Random random = new Random(47);
+//        String htmlName = time + "" + random.nextInt() * 1000 + ".html";
+        //生成uuid作为文件名称
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        String htmlName=uuid+".html";
         //生成文件的路径
         String htmlPath = FileUtil.getFilePath(htmlName);
+        //如果当前的图片出于实验性模式，则不上传图片
+        boolean isLaboratory= SPUtil.getInstance(MyApplication.getContext()).isLaboratory();
+        int laboratory=isLaboratory?1:0;
         //先在列表中显示出该item
         //将文件保存到数据库中
         HtmlImage htmlImage = new HtmlImage();
@@ -52,6 +61,7 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
         htmlImage.setContent(content);
         htmlImage.setTitle(title);
         htmlImage.setImgPath(filePath);
+        htmlImage.setIsLaboratory(laboratory);
         htmlImage.save();
 
         //将htmlImg实例包装到bundle中，使用广播发送出去
@@ -72,7 +82,7 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
             int rgbG=Integer.parseInt(params[7]);
             int rgbB=Integer.parseInt(params[8]);
 
-            htmlStr = Image2Html.imageToHtml(filePath, title, content,  new RgbColor(rgbR,rgbB,rgbB), txtSize, imgSize, rgbDebug);
+            htmlStr = Image2Html.imageToHtml(filePath, title, content,  new RgbColor(rgbR,rgbG,rgbB), txtSize, imgSize, rgbDebug);
         } else {
             htmlStr = Image2Html.imageToHtml(filePath, title, content);
         }
@@ -80,9 +90,10 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
 
         //将html代码保存至对应路径
         FileUtil.creatFile(htmlPath, htmlStr);
-        //将文件上传到服务器中
-        NetUtil.upLoadHtml(content, title, htmlPath);
-
+        if (!isLaboratory) {
+            //当不是实验性模式时，将文件上传到服务器中
+            NetUtil.upLoadHtml(content, title, htmlPath);
+        }
 
         return htmlImage;
     }
