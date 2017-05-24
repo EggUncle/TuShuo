@@ -1,18 +1,16 @@
-package com.egguncle.imagetohtml.util;
+package com.egguncle.imagetohtml.util.file;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.Looper;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import com.egguncle.imagetohtml.MyApplication;
-import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.ui.activity.WebViewActivity;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
+import com.egguncle.imagetohtml.util.img.Image2Html;
 
 import java.io.File;
 import java.io.FileNotFoundException;

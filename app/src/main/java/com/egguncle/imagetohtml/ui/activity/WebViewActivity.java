@@ -10,11 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Picture;
 
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,14 +26,10 @@ import android.webkit.WebView;
 
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
-import com.egguncle.imagetohtml.util.FileUtil;
-import com.egguncle.imagetohtml.util.Image2Html;
-import com.egguncle.imagetohtml.util.NetUtil;
-import com.egguncle.imagetohtml.util.SPUtil;
+import com.egguncle.imagetohtml.util.file.FileUtil;
+import com.egguncle.imagetohtml.util.network.NetWorkFunc;
 
 import org.litepal.crud.DataSupport;
-
-import static android.webkit.WebView.enableSlowWholeDocumentDraw;
 
 
 /**
@@ -214,7 +206,7 @@ public class WebViewActivity extends BaseActivity {
             case ID_GET_LINK: {
                 //复制链接
                 ClipboardManager clipboardManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("test", NetUtil.HTML_URL + htmlName);
+                ClipData clipData = ClipData.newPlainText("test", NetWorkFunc.HTML_URL + htmlName);
                 clipboardManager.setPrimaryClip(clipData);
                 Snackbar.make(webview, getResources().getString(R.string.copy_link), Snackbar.LENGTH_SHORT).show();
             }
@@ -232,7 +224,7 @@ public class WebViewActivity extends BaseActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            NetUtil.upLoadHtml(content, title, htmlUrl);
+                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
                         }
                     }).start();
                 }else{
@@ -270,7 +262,7 @@ public class WebViewActivity extends BaseActivity {
                                 public void onClick(View view) {
                                     //复制链接
                                     ClipboardManager clipboardManager = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clipData = ClipData.newPlainText("test", NetUtil.HTML_URL + htmlName);
+                                    ClipData clipData = ClipData.newPlainText("test", NetWorkFunc.HTML_URL + htmlName);
                                     clipboardManager.setPrimaryClip(clipData);
                                 }
                             })
@@ -285,7 +277,7 @@ public class WebViewActivity extends BaseActivity {
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            NetUtil.upLoadHtml(content, title, htmlUrl);
+                                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
                                         }
                                     }).start();
                                 }

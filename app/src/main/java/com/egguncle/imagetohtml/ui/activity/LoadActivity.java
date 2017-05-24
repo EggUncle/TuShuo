@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.util.SPUtil;
+import com.egguncle.imagetohtml.util.file.SPUtil;
 
 public class LoadActivity extends BaseActivity {
     private ImageView ivLoadLogo;

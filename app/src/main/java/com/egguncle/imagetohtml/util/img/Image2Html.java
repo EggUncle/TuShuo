@@ -1,4 +1,4 @@
-package com.egguncle.imagetohtml.util;
+package com.egguncle.imagetohtml.util.img;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

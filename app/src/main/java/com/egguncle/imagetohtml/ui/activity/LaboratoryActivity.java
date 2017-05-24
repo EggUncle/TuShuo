@@ -6,7 +6,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.util.SPUtil;
+import com.egguncle.imagetohtml.util.file.SPUtil;
 
 /**
  * 实验性功能

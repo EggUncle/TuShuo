@@ -1,4 +1,4 @@
-package com.egguncle.imagetohtml.util;
+package com.egguncle.imagetohtml.util.file;
 
 import android.app.Activity;
 import android.content.Context;

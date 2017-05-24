@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.HomeRcvAdapter;
-import com.egguncle.imagetohtml.util.NetUtil;
 
 import org.litepal.crud.DataSupport;
 

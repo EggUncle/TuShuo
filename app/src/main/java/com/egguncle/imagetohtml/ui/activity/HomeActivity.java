@@ -11,25 +11,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import com.egguncle.imagetohtml.R;
-import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.ui.adapter.SectionsPagerAdapter;
 import com.egguncle.imagetohtml.ui.dialog.BaseDialog;
 import com.egguncle.imagetohtml.ui.dialog.DialogFactory;
-import com.egguncle.imagetohtml.ui.dialog.HomeDialog;
-import com.egguncle.imagetohtml.ui.dialog.LaboratoryDialog;
 import com.egguncle.imagetohtml.ui.view.MyViewPager;
-import com.egguncle.imagetohtml.util.ImageUtil;
-import com.egguncle.imagetohtml.util.SPUtil;
-
-import java.lang.reflect.Method;
+import com.egguncle.imagetohtml.util.img.ImageUtil;
+import com.egguncle.imagetohtml.util.file.SPUtil;
 
 public class HomeActivity extends BaseActivity {
 
@@ -84,7 +77,7 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.i(TAG, "onTabSelected: ");
+
                 switch (tab.getPosition()) {
                     case 0:
                         if (!fab.isShown()) {

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.egguncle.imagetohtml.model.HtmlImage;
+import com.egguncle.imagetohtml.model.json.ResultHtmlImage;
 
 
 /**
@@ -19,7 +20,7 @@ public class TStar extends android.support.v7.widget.AppCompatTextView{
     private int postion;
 
 
-    private HtmlImage htmlImage;
+    private ResultHtmlImage htmlImage;
 
     public boolean isVisabale() {
         return isVisabale;
@@ -37,11 +38,11 @@ public class TStar extends android.support.v7.widget.AppCompatTextView{
         this.postion = postion;
     }
 
-    public HtmlImage getHtmlImage() {
+    public ResultHtmlImage getHtmlImage() {
         return htmlImage;
     }
 
-    public void setHtmlImage(HtmlImage htmlImage) {
+    public void setHtmlImage(ResultHtmlImage htmlImage) {
         this.htmlImage = htmlImage;
     }
 

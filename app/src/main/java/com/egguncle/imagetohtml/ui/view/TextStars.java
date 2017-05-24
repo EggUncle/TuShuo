@@ -13,10 +13,14 @@ import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.egguncle.imagetohtml.model.json.ResultHtmlImage;
+import com.egguncle.imagetohtml.util.network.NetUtil;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
 
 /**
  * Created by egguncle on 17-5-9.
@@ -47,6 +51,8 @@ public class TextStars extends RelativeLayout {
     //布局中textview的集合
     private List<TextView> textViewList;
 
+
+
     public TextStars(Context context) {
         this(context, null);
     }
@@ -59,6 +65,7 @@ public class TextStars extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         mContext = context;
         textViewList = new LinkedList<>();
+
 
     }
 
@@ -85,7 +92,7 @@ public class TextStars extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
-        Log.i(TAG, "onMeasure: " + width + " " + height);
+       // Log.i(TAG, "onMeasure: " + width + " " + height);
         setMeasuredDimension(width, height);
         distanceX = width / 3;
         distanceY = height / 3;
@@ -113,7 +120,7 @@ public class TextStars extends RelativeLayout {
 
             }
         };
-        handler.postDelayed(r, 2000);
+        handler.postDelayed(r, 1000);
 
 
         super.removeViews(start, count);
@@ -212,7 +219,100 @@ public class TextStars extends RelativeLayout {
             textViewList.add(textView);
             //   rootLayout.addView(textView);
             this.addView(textView);
-            Log.i(TAG, "add: " + textViewList.size());
+         //   Log.i(TAG, "add: " + textViewList.size());
+        }
+
+    }
+
+    /**
+     * 向布局中添加文字
+     *
+     * @param htmlImage
+     */
+    public void add(ResultHtmlImage htmlImage) {
+        if (textViewList.size() > 9) {
+//            this.removeViews(0, 1);
+//            textViewList.remove(0);
+        } else {
+            int postion = textViewList.size();
+            TStar textView = new TStar(mContext);
+            textView.setPostion(postion);
+            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            Random random = new Random();
+            switch (postion) {
+                case 1: {
+                    params.leftMargin = random.nextInt(distanceX);
+                    params.topMargin = random.nextInt(distanceY);
+                }
+                break;
+                case 2: {
+                    params.leftMargin = random.nextInt(distanceX)+distanceX;
+                    params.topMargin = random.nextInt(distanceY);
+                }
+                break;
+                case 3: {
+                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
+                    params.topMargin = random.nextInt(distanceY);
+                }
+                break;
+                case 4: {
+                    params.leftMargin = random.nextInt(distanceX);
+                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                }
+                break;
+                case 5: {
+                    params.leftMargin = random.nextInt(distanceX)+distanceX;
+                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                }
+                break;
+                case 6: {
+                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
+                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                }
+                break;
+                case 7: {
+                    params.leftMargin = random.nextInt(distanceX);
+                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                }
+                break;
+                case 8: {
+                    params.leftMargin = random.nextInt(distanceX)+distanceX;
+                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                }
+                break;
+                case 9: {
+                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
+                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                }
+                break;
+                default:{
+                    params.leftMargin = random.nextInt(width);
+                    params.topMargin = random.nextInt(height);
+                }
+            }
+
+            textView.setLayoutParams(params);
+            textView.setMaxEms(7);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setSingleLine();
+            String content=htmlImage.getContent();
+            textView.setText(content);
+            textView.setTextSize(20);
+            textView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i(TAG, "onClick: ---------------------------------");
+                }
+            });
+            AlphaAnimation animDisplay = new AlphaAnimation(0, 1);
+            animDisplay.setDuration(ANIMATION_TIME);
+            textView.startAnimation(animDisplay);
+            textViewList.add(textView);
+            //   rootLayout.addView(textView);
+            this.addView(textView);
+            //   Log.i(TAG, "add: " + textViewList.size());
         }
 
     }
@@ -300,6 +400,9 @@ public class TextStars extends RelativeLayout {
                 removeViewWithOutAnim(text);
             }
         }
+        if (textViewList.size()<=4){
+            NetUtil.getHtmlFromServer();
+        }
 //        for (TextView text:textViewList){
 //            LayoutParams params= (LayoutParams) text.getLayoutParams();
 //            params.leftMargin+=x;
@@ -348,4 +451,6 @@ public class TextStars extends RelativeLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return false;
     }
+
+
 }

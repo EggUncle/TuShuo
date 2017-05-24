@@ -1,4 +1,4 @@
-package com.egguncle.imagetohtml.util;
+package com.egguncle.imagetohtml.util.img;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
