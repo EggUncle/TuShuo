@@ -24,6 +24,8 @@ public class FragmentStars extends Fragment {
     private View rootView;
     private TextStars textStars;
 
+    private final static int TIME=1000;
+
     public FragmentStars() {
     }
 
@@ -45,10 +47,10 @@ public class FragmentStars extends Fragment {
             @Override
             public void run() {
                 textStars.add("测试");
-                handler.postDelayed(this,2000);
+                handler.postDelayed(this,TIME);
             }
         };
-        handler.postDelayed(r,2000);
+        handler.postDelayed(r,TIME);
 
 
     }
@@ -59,4 +61,6 @@ public class FragmentStars extends Fragment {
     private void initAction(){
 
     }
+
+
 }
