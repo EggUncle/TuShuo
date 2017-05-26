@@ -30,9 +30,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentHome();
-            case 1:
                 return new FragmentStars();
+            case 1:
+                 return new FragmentHome();
         }
 
        return null;
@@ -48,9 +48,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return MyApplication.getContext().getString(R.string.my);
-            case 1:
                 return MyApplication.getContext().getString(R.string.star_ocean);
+            case 1:
+                return MyApplication.getContext().getString(R.string.my);
         }
         return null;
     }

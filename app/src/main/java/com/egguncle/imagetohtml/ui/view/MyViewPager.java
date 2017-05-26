@@ -19,7 +19,7 @@ public class MyViewPager extends ViewPager {
     private int screenWidth;
     private float lastY;
 
-    private final static int DISTANCE = 50;
+    private final static int DISTANCE = 100;
 
 
     public MyViewPager(Context context) {

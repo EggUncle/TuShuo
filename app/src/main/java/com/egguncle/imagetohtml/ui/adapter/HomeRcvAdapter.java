@@ -78,13 +78,14 @@ public class HomeRcvAdapter extends RecyclerView.Adapter<HomeRcvAdapter.HomeVide
                 @Override
                 public void onClick(View view) {
                     Context context = holder.itemView.getContext();
-                    Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("url", htmlPath);
-                    intent.putExtra("title", title);
-                    intent.putExtra("imgpath",imgPath);
-                    intent.putExtra("html_name",htmlName);
-                    intent.putExtra("content",content);
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, WebViewActivity.class);
+//                    intent.putExtra("url", htmlPath);
+//                    intent.putExtra("title", title);
+//                    intent.putExtra("imgpath",imgPath);
+//                    intent.putExtra("html_name",htmlName);
+//                    intent.putExtra("content",content);
+//                    context.startActivity(intent);
+                    WebViewActivity.startWebViewActivity(context,htmlPath,imgPath,htmlName,content,title);
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -1,7 +1,11 @@
 package com.egguncle.imagetohtml.ui.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -14,12 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.egguncle.imagetohtml.model.json.ResultHtmlImage;
+import com.egguncle.imagetohtml.ui.activity.StarWebViewActivity;
 import com.egguncle.imagetohtml.util.network.NetUtil;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 
 /**
@@ -34,7 +40,9 @@ public class TextStars extends RelativeLayout {
     private final static String TAG = "TextStars";
 
     private final static int DEFAULT_DISTANCE = 200;
-    private final static int ANIMATION_TIME=1000;
+    private final static int ANIMATION_TIME = 1000;
+
+    private final static int ADD_VIEW = 0x123;
 
     private Context mContext;
     //viewgroup高度
@@ -51,8 +59,6 @@ public class TextStars extends RelativeLayout {
     //布局中textview的集合
     private List<TextView> textViewList;
 
-
-
     public TextStars(Context context) {
         this(context, null);
     }
@@ -64,9 +70,7 @@ public class TextStars extends RelativeLayout {
     public TextStars(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
-        textViewList = new LinkedList<>();
-
-
+        textViewList = new Vector<>();
     }
 
     @Override
@@ -92,7 +96,7 @@ public class TextStars extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
-       // Log.i(TAG, "onMeasure: " + width + " " + height);
+        // Log.i(TAG, "onMeasure: " + width + " " + height);
         setMeasuredDimension(width, height);
         distanceX = width / 3;
         distanceY = height / 3;
@@ -154,46 +158,46 @@ public class TextStars extends RelativeLayout {
                 }
                 break;
                 case 2: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
+                    params.leftMargin = random.nextInt(distanceX) + distanceX;
                     params.topMargin = random.nextInt(distanceY);
                 }
                 break;
                 case 3: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
+                    params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
                     params.topMargin = random.nextInt(distanceY);
                 }
                 break;
                 case 4: {
                     params.leftMargin = random.nextInt(distanceX);
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                    params.topMargin = random.nextInt(distanceY) + distanceY;
                 }
                 break;
                 case 5: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                    params.leftMargin = random.nextInt(distanceX) + distanceX;
+                    params.topMargin = random.nextInt(distanceY) + distanceY;
                 }
                 break;
                 case 6: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
+                    params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
+                    params.topMargin = random.nextInt(distanceY) + distanceY;
                 }
                 break;
                 case 7: {
                     params.leftMargin = random.nextInt(distanceX);
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                    params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
                 }
                 break;
                 case 8: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                    params.leftMargin = random.nextInt(distanceX) + distanceX;
+                    params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
                 }
                 break;
                 case 9: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
+                    params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
+                    params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
                 }
                 break;
-                default:{
+                default: {
                     params.leftMargin = random.nextInt(width);
                     params.topMargin = random.nextInt(height);
                 }
@@ -219,7 +223,7 @@ public class TextStars extends RelativeLayout {
             textViewList.add(textView);
             //   rootLayout.addView(textView);
             this.addView(textView);
-         //   Log.i(TAG, "add: " + textViewList.size());
+            //   Log.i(TAG, "add: " + textViewList.size());
         }
 
     }
@@ -230,91 +234,108 @@ public class TextStars extends RelativeLayout {
      * @param htmlImage
      */
     public void add(ResultHtmlImage htmlImage) {
-        if (textViewList.size() > 9) {
+
 //            this.removeViews(0, 1);
 //            textViewList.remove(0);
-        } else {
-            int postion = textViewList.size();
-            TStar textView = new TStar(mContext);
-            textView.setPostion(postion);
-            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (textViewList.size() < 9) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("data", htmlImage);
+            Message msg = Message.obtain();
+            msg.obj = bundle;
+            msg.what = ADD_VIEW;
+        }
+    }
 
-            Random random = new Random();
-            switch (postion) {
-                case 1: {
-                    params.leftMargin = random.nextInt(distanceX);
-                    params.topMargin = random.nextInt(distanceY);
-                }
-                break;
-                case 2: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
-                    params.topMargin = random.nextInt(distanceY);
-                }
-                break;
-                case 3: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
-                    params.topMargin = random.nextInt(distanceY);
-                }
-                break;
-                case 4: {
-                    params.leftMargin = random.nextInt(distanceX);
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
-                }
-                break;
-                case 5: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
-                }
-                break;
-                case 6: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
-                    params.topMargin = random.nextInt(distanceY)+distanceY;
-                }
-                break;
-                case 7: {
-                    params.leftMargin = random.nextInt(distanceX);
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
-                }
-                break;
-                case 8: {
-                    params.leftMargin = random.nextInt(distanceX)+distanceX;
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
-                }
-                break;
-                case 9: {
-                    params.leftMargin = random.nextInt(distanceX)+2*distanceX;
-                    params.topMargin = random.nextInt(distanceY)+2*distanceY;
-                }
-                break;
-                default:{
-                    params.leftMargin = random.nextInt(width);
-                    params.topMargin = random.nextInt(height);
-                }
+    public void addViewToViewGroup(ResultHtmlImage htmlImage) {
+        if (textViewList.size()>9){
+            return;
+        }
+        int postion = textViewList.size();
+        final TStar textView = new TStar(mContext);
+        textView.setPostion(postion);
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                , ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Random random = new Random();
+        switch (postion) {
+            case 1: {
+                params.leftMargin = random.nextInt(distanceX);
+                params.topMargin = random.nextInt(distanceY);
             }
-
-            textView.setLayoutParams(params);
-            textView.setMaxEms(7);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setSingleLine();
-            String content=htmlImage.getContent();
-            textView.setText(content);
-            textView.setTextSize(20);
-            textView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.i(TAG, "onClick: ---------------------------------");
-                }
-            });
-            AlphaAnimation animDisplay = new AlphaAnimation(0, 1);
-            animDisplay.setDuration(ANIMATION_TIME);
-            textView.startAnimation(animDisplay);
-            textViewList.add(textView);
-            //   rootLayout.addView(textView);
-            this.addView(textView);
-            //   Log.i(TAG, "add: " + textViewList.size());
+            break;
+            case 2: {
+                params.leftMargin = random.nextInt(distanceX) + distanceX;
+                params.topMargin = random.nextInt(distanceY);
+            }
+            break;
+            case 3: {
+                params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
+                params.topMargin = random.nextInt(distanceY);
+            }
+            break;
+            case 4: {
+                params.leftMargin = random.nextInt(distanceX);
+                params.topMargin = random.nextInt(distanceY) + distanceY;
+            }
+            break;
+            case 5: {
+                params.leftMargin = random.nextInt(distanceX) + distanceX;
+                params.topMargin = random.nextInt(distanceY) + distanceY;
+            }
+            break;
+            case 6: {
+                params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
+                params.topMargin = random.nextInt(distanceY) + distanceY;
+            }
+            break;
+            case 7: {
+                params.leftMargin = random.nextInt(distanceX);
+                params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
+            }
+            break;
+            case 8: {
+                params.leftMargin = random.nextInt(distanceX) + distanceX;
+                params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
+            }
+            break;
+            case 9: {
+                params.leftMargin = random.nextInt(distanceX) + 2 * distanceX;
+                params.topMargin = random.nextInt(distanceY) + 2 * distanceY;
+            }
+            break;
+            default: {
+                params.leftMargin = random.nextInt(width);
+                params.topMargin = random.nextInt(height);
+            }
         }
 
+        textView.setLayoutParams(params);
+        textView.setMaxEms(7);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setSingleLine();
+        final String content = htmlImage.getContent();
+        textView.setHtmlImage(htmlImage);
+        final String title=htmlImage.getTitle();
+        final String htmlName=htmlImage.getHtmlPath();
+        textView.setText(content);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(20);
+        textView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "onClick: --");
+                Log.i(TAG, "onClick: "+textView.getHtmlImage().getHtmlPath());
+                StarWebViewActivity.startStarWebViewActivity(getContext(),title,htmlName);
+                Log.i(TAG, "onClick: --");
+            }
+        });
+        AlphaAnimation animDisplay = new AlphaAnimation(0, 1);
+        animDisplay.setDuration(ANIMATION_TIME);
+        textView.startAnimation(animDisplay);
+        textViewList.add(textView);
+        //   rootLayout.addView(textView);
+        this.addView(textView);
+        Log.i(TAG, "add: " + textViewList.size());
     }
 
 
@@ -329,30 +350,33 @@ public class TextStars extends RelativeLayout {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-           //     Log.i(TAG, "onTouch: down");
+                //     Log.i(TAG, "onTouch: down");
                 lastX = event.getX();
                 lastY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 //响应触摸事件  同时移动所有的textview
-             //   Log.i(TAG, "onTouch: move");
+                //   Log.i(TAG, "onTouch: move");
                 float xChange = event.getX() - lastX;
                 float yChange = event.getY() - lastY;
 
                 moveAllText(xChange, yChange);
 
-            //    Log.i(TAG, "onTouch: " + xChange + " " + yChange);
+                //    Log.i(TAG, "onTouch: " + xChange + " " + yChange);
                 lastX = event.getX();
                 lastY = event.getY();
 
 
                 break;
             case MotionEvent.ACTION_SCROLL: {
-          //      Log.i(TAG, "onTouch: scroll");
+                //      Log.i(TAG, "onTouch: scroll");
             }
             break;
             case MotionEvent.ACTION_UP: {
-          //      Log.i(TAG, "onTouch: up");
+                //      Log.i(TAG, "onTouch: up");
+                if (textViewList.size() <= 4) {
+                    NetUtil.getHtmlFromServer();
+                }
             }
             break;
         }
@@ -370,7 +394,7 @@ public class TextStars extends RelativeLayout {
     private boolean inLayout(View view) {
         float viewX = view.getX();
         float viewY = view.getY();
-      //  Log.i(TAG, "inLayout: " + viewX + " " + viewY);
+        //  Log.i(TAG, "inLayout: " + viewX + " " + viewY);
         if (viewX < 0 - DEFAULT_DISTANCE || viewX > width + DEFAULT_DISTANCE || viewY < 0 - DEFAULT_DISTANCE || viewY > height + DEFAULT_DISTANCE) {
             return true;
         }
@@ -400,9 +424,7 @@ public class TextStars extends RelativeLayout {
                 removeViewWithOutAnim(text);
             }
         }
-        if (textViewList.size()<=4){
-            NetUtil.getHtmlFromServer();
-        }
+
 //        for (TextView text:textViewList){
 //            LayoutParams params= (LayoutParams) text.getLayoutParams();
 //            params.leftMargin+=x;
@@ -451,6 +473,8 @@ public class TextStars extends RelativeLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return false;
     }
+
+
 
 
 }

@@ -11,6 +11,7 @@ import com.egguncle.imagetohtml.model.RgbColor;
 import com.egguncle.imagetohtml.ui.fragment.FragmentHome;
 import com.egguncle.imagetohtml.util.file.FileUtil;
 import com.egguncle.imagetohtml.util.img.Image2Html;
+import com.egguncle.imagetohtml.util.network.NetUtil;
 import com.egguncle.imagetohtml.util.network.NetWorkFunc;
 import com.egguncle.imagetohtml.util.file.SPUtil;
 
@@ -91,7 +92,8 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
         FileUtil.creatFile(htmlPath, htmlStr);
         if (!isLaboratory) {
             //当不是实验性模式时，将文件上传到服务器中
-            NetWorkFunc.upLoadHtml(content, title, htmlPath);
+          //  NetWorkFunc.upLoadHtml(content, title, htmlPath);
+            NetUtil.upLoadHtmlFile(content, title, htmlPath);
         }
 
         return htmlImage;

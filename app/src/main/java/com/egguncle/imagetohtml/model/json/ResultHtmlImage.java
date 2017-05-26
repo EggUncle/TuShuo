@@ -1,10 +1,12 @@
 package com.egguncle.imagetohtml.model.json;
 
+import java.io.Serializable;
+
 /**
  * Created by egguncle on 17-5-24.
  */
 
-public class ResultHtmlImage {
+public class ResultHtmlImage implements Serializable{
     private int id;
 
     private String content;

@@ -27,6 +27,7 @@ import android.webkit.WebView;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.HtmlImage;
 import com.egguncle.imagetohtml.util.file.FileUtil;
+import com.egguncle.imagetohtml.util.network.NetUtil;
 import com.egguncle.imagetohtml.util.network.NetWorkFunc;
 
 import org.litepal.crud.DataSupport;
@@ -65,6 +66,24 @@ public class WebViewActivity extends BaseActivity {
 
     }
 
+    /**
+     * 启动该activity的默认方法
+     * @param context   
+     * @param htmlUrl  html的地址
+     * @param imgPath  图片的路径
+     * @param htmlName  html文本件名称
+     * @param content   html内的填充文字
+     * @param title    html的标题
+     */
+    public static void startWebViewActivity(Context context,String htmlUrl,String imgPath,String htmlName,String content,String title){
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("url", htmlUrl);
+        intent.putExtra("title", title);
+        intent.putExtra("imgpath",imgPath);
+        intent.putExtra("html_name",htmlName);
+        intent.putExtra("content",content);
+        context.startActivity(intent);
+    }
 
     void initAction() {
         WebSettings setting = webview.getSettings();
@@ -221,12 +240,14 @@ public class WebViewActivity extends BaseActivity {
                         .get(0);
                 if (htmlImage.isUpLoad() == 0) {
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
-                        }
-                    }).start();
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
+//
+//                        }
+//                    }).start();
+                    NetUtil.upLoadHtmlFile(content, title, htmlUrl);
                 }else{
                     Snackbar.make(webview, getResources().getString(R.string.had_upload), Snackbar.LENGTH_SHORT).show();
                 }
@@ -274,12 +295,13 @@ public class WebViewActivity extends BaseActivity {
                             .setAction(getResources().getString(R.string.retry), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
-                                        }
-                                    }).start();
+//                                    new Thread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
+//                                        }
+//                                    }).start();
+                                    NetUtil.upLoadHtmlFile(content, title, htmlUrl);
                                 }
                             })
                             .setActionTextColor(Color.WHITE)

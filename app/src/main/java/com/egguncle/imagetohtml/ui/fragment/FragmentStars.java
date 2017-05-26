@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.egguncle.imagetohtml.AsyncTask.StarsAsyncTask;
 import com.egguncle.imagetohtml.R;
 import com.egguncle.imagetohtml.model.json.ResultHtmlImage;
 import com.egguncle.imagetohtml.model.json.ResultRoot;
@@ -35,6 +37,8 @@ public class FragmentStars extends Fragment {
     private TextStars textStars;
 
     private final static int TIME=1000;
+
+    private static boolean requestData=false;
 
     //广播相关
     private FragmentStars.StarsReceiver starsReceiver;
@@ -92,10 +96,11 @@ public class FragmentStars extends Fragment {
         public void onReceive(Context context, Intent intent) {
             ResultRoot resultRoot= (ResultRoot) intent.getBundleExtra("data").get("data");
             if (resultRoot!=null){
-                for (ResultHtmlImage htmlIamge:resultRoot.getResults()) {
-                            textStars.add(htmlIamge);
-
-                }
+//                for (ResultHtmlImage htmlIamge:resultRoot.getResults()) {
+//                            textStars.add(htmlIamge);
+//                }
+                StarsAsyncTask starsAsyncTask=new StarsAsyncTask(textStars);
+                starsAsyncTask.execute(resultRoot.getResults());
             }
         }
     }
@@ -103,5 +108,11 @@ public class FragmentStars extends Fragment {
         return localBroadcastManager;
     }
 
+    /**
+     * @param b
+     */
+    public static void setRequestData(boolean b){
+        requestData=b;
+    }
 
 }
