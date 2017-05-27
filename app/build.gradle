@@ -1,3 +1,11 @@
+/*
+ * Create by EggUncle on 17-5-27 上午10:47
+ * Copyright (c) 2017. All rights reserved
+ *
+ * Last modified 17-5-27 上午10:22
+ *
+ */
+
 apply plugin: 'com.android.application'
 
 android {
@@ -7,8 +15,8 @@ android {
         applicationId "com.egguncle.imagetohtml"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.1.0"
+        versionCode 6
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,11 +24,9 @@ android {
 
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            //混淆
-            minifyEnabled false
-
-            // 移除无用的resource文件
-            shrinkResources false
+            zipAlignEnabled false     //Zipalign优化
+            shrinkResources false    // 移除无用的resource文件
+            minifyEnabled false     //混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

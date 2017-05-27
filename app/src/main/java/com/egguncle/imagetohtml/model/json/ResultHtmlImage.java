@@ -1,3 +1,11 @@
+/*
+ * Create by EggUncle on 17-5-27 上午10:47
+ * Copyright (c) 2017. All rights reserved
+ *
+ * Last modified 17-5-26 上午10:21
+ *
+ */
+
 package com.egguncle.imagetohtml.model.json;
 
 import java.io.Serializable;

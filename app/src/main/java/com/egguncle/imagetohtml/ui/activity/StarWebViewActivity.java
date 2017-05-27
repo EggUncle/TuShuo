@@ -1,3 +1,11 @@
+/*
+ * Create by EggUncle on 17-5-27 上午10:47
+ * Copyright (c) 2017. All rights reserved
+ *
+ * Last modified 17-5-26 下午4:02
+ *
+ */
+
 package com.egguncle.imagetohtml.ui.activity;
 
 import android.content.ClipData;
@@ -33,6 +41,8 @@ public class StarWebViewActivity extends BaseActivity {
 
     private WebView webviewStar;
     private final static String TAG="StarWebViewActivity";
+
+    private  String url;
 
     /**
      * 启动该activity
@@ -80,7 +90,7 @@ public class StarWebViewActivity extends BaseActivity {
         //隐藏缩放控件
         setting.setDisplayZoomControls(false);
 
-        String url = NetWorkFunc.HTML_URL + htmlName + ".html";
+         url = NetWorkFunc.HTML_URL + htmlName + ".html";
         webviewStar.loadUrl(url);
     }
 
@@ -89,18 +99,18 @@ public class StarWebViewActivity extends BaseActivity {
         return R.layout.activity_star_web_view;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_web, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        switch (id) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_star, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
 //            case R.id.action_generate_img: {
 //                //保存图片
 //                //    Picture snapShot = webview.capturePicture();
@@ -138,9 +148,16 @@ public class StarWebViewActivity extends BaseActivity {
 //
 //            }
 //            break;
-//
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+            case R.id.action_geturl:{
+                //复制链接
+                ClipboardManager clipboardManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("test",url);
+                clipboardManager.setPrimaryClip(clipData);
+                Snackbar.make(webviewStar, getResources().getString(R.string.copy_link), Snackbar.LENGTH_SHORT).show();
+            }break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

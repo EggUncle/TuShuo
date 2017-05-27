@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by EggUncle on 17-5-27 上午10:47
+  ~ Copyright (c) 2017. All rights reserved
+  ~
+  ~ Last modified 17-5-26 下午3:42
+  ~
+  -->
+
 <com.egguncle.imagetohtml.ui.view.TextStars xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/text_stars"
     android:layout_width="match_parent"

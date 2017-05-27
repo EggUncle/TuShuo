@@ -1,3 +1,11 @@
+/*
+ * Create by EggUncle on 17-5-27 上午10:47
+ * Copyright (c) 2017. All rights reserved
+ *
+ * Last modified 17-5-23 上午10:20
+ *
+ */
+
 package com.egguncle.imagetohtml.ui.dialog;
 
 import android.content.Context;
