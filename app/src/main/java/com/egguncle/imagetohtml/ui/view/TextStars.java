@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.egguncle.imagetohtml.model.json.ResultHtmlImage;
@@ -66,6 +67,7 @@ public class TextStars extends RelativeLayout {
 
     //布局中textview的集合
     private List<TextView> textViewList;
+    //   private Scroller scroller;
 
     public TextStars(Context context) {
         this(context, null);
@@ -79,6 +81,7 @@ public class TextStars extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         mContext = context;
         textViewList = new Vector<>();
+        //   scroller = new Scroller(context);
     }
 
     @Override
@@ -255,7 +258,7 @@ public class TextStars extends RelativeLayout {
     }
 
     public void addViewToViewGroup(ResultHtmlImage htmlImage) {
-        if (textViewList.size()>9){
+        if (textViewList.size() > 9) {
             return;
         }
         int postion = textViewList.size();
@@ -323,8 +326,8 @@ public class TextStars extends RelativeLayout {
         textView.setSingleLine();
         final String content = htmlImage.getContent();
         textView.setHtmlImage(htmlImage);
-        final String title=htmlImage.getTitle();
-        final String htmlName=htmlImage.getHtmlPath();
+        final String title = htmlImage.getTitle();
+        final String htmlName = htmlImage.getHtmlPath();
         textView.setText(content);
         textView.setTextColor(Color.WHITE);
         textView.setTextSize(20);
@@ -332,8 +335,8 @@ public class TextStars extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "onClick: --");
-                Log.i(TAG, "onClick: "+textView.getHtmlImage().getHtmlPath());
-                StarWebViewActivity.startStarWebViewActivity(getContext(),title,htmlName);
+                Log.i(TAG, "onClick: " + textView.getHtmlImage().getHtmlPath());
+                StarWebViewActivity.startStarWebViewActivity(getContext(), title, htmlName);
                 Log.i(TAG, "onClick: --");
             }
         });
@@ -400,8 +403,8 @@ public class TextStars extends RelativeLayout {
      * @return
      */
     private boolean inLayout(View view) {
-        float viewX = view.getX();
-        float viewY = view.getY();
+        float viewX = view.getScrollX();
+        float viewY = view.getScrollY();
         //  Log.i(TAG, "inLayout: " + viewX + " " + viewY);
         if (viewX < 0 - DEFAULT_DISTANCE || viewX > width + DEFAULT_DISTANCE || viewY < 0 - DEFAULT_DISTANCE || viewY > height + DEFAULT_DISTANCE) {
             return true;
@@ -417,13 +420,16 @@ public class TextStars extends RelativeLayout {
      */
     private void moveAllText(float x, float y) {
 
+      //  this.scrollBy((int) -x, (int) -y);
         Iterator iterator = textViewList.iterator();
         while (iterator.hasNext()) {
             TextView text = (TextView) iterator.next();
             LayoutParams params = (LayoutParams) text.getLayoutParams();
             params.leftMargin += x;
             params.topMargin += y;
+            //  text.scrollTo( params.leftMargin,params.topMargin);
             text.setLayoutParams(params);
+            Log.i(TAG, "moveAllText: " + params.leftMargin + "  " + params.topMargin);
             //
             if (inLayout(text)) {
                 Log.i(TAG, "this view has move out the viewgroup");
@@ -481,8 +487,6 @@ public class TextStars extends RelativeLayout {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return false;
     }
-
-
 
 
 }

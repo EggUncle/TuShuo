@@ -119,7 +119,7 @@ public class Image2Html {
      * @param imgSize     图片尺寸（最短的边）
      * @return
      */
-    private static Bitmap zoomBitmap(String filePath,int imgSize) {
+    public static Bitmap zoomBitmap(String filePath,int imgSize) {
 
         Log.i(TAG, "zoomBitmap: 图片缩放大小为："+imgSize);
         BitmapFactory.Options opts = new BitmapFactory.Options();

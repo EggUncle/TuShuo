@@ -101,7 +101,7 @@ public class ImgHtmlAsyncTask extends AsyncTask<String, Integer, HtmlImage> {
         if (!isLaboratory) {
             //当不是实验性模式时，将文件上传到服务器中
           //  NetWorkFunc.upLoadHtml(content, title, htmlPath);
-            NetUtil.upLoadHtmlFile(content, title, htmlPath);
+            NetUtil.upLoadHtmlFile(content, title, htmlPath,filePath);
         }
 
         return htmlImage;

@@ -19,21 +19,23 @@ public class UpLoadHtmlRunnable implements Runnable {
     private String content;
     private String title;
     private String htmlPath;
+    private String imgPath;
 
     /**
      * @param c 内容
      * @param t 标题
      * @param p html路径
      */
-    public UpLoadHtmlRunnable(String c, String t, String p) {
+    public UpLoadHtmlRunnable(String c, String t, String p,String i) {
         content = c;
         title = t;
         htmlPath = p;
+        imgPath=i;
     }
 
 
     @Override
     public void run() {
-        NetWorkFunc.upLoadHtml(content, title, htmlPath);
+        NetWorkFunc.upLoadHtml(content, title, htmlPath,imgPath);
     }
 }

@@ -21,7 +21,7 @@
     <string name="load">生成中，请稍候...</string>
     <string name="action_generate_img">生成图片</string>
     <string name="action_about">关于</string>
-    <string name="project_address">项目地址: https://github.com/EggUncle/TuShuo</string>
+
     <string name="project_rep">框架</string>
     <string name="glide_rep">glide: https://github.com/bumptech/glide</string>
     <string name="litepal_rep">litepal: https://github.com/LitePalFramework/LitePal#latest-downloads/</string>

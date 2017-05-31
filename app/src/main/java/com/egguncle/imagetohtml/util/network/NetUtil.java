@@ -24,8 +24,8 @@ public class NetUtil {
     //用于网络请求的线程池
     private static ExecutorService executorService= Executors.newFixedThreadPool(5);
 
-    public static void upLoadHtmlFile(String content,String title,String htmlPath){
-        executorService.execute(new UpLoadHtmlRunnable(content,title,htmlPath));
+    public static void upLoadHtmlFile(String content,String title,String htmlPath,String imgPath){
+        executorService.execute(new UpLoadHtmlRunnable(content,title,htmlPath,imgPath));
     }
 
     public static void getHtmlFromServer(){

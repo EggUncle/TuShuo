@@ -255,7 +255,7 @@ public class WebViewActivity extends BaseActivity {
 //
 //                        }
 //                    }).start();
-                    NetUtil.upLoadHtmlFile(content, title, htmlUrl);
+                    NetUtil.upLoadHtmlFile(content, title, htmlUrl,imgPath);
                 }else{
                     Snackbar.make(webview, getResources().getString(R.string.had_upload), Snackbar.LENGTH_SHORT).show();
                 }
@@ -274,7 +274,7 @@ public class WebViewActivity extends BaseActivity {
     private class WebReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, final Intent intent) {
             String type = intent.getStringExtra("type");
             Log.i(TAG, "onReceive: " + type);
             if ("save_file".equals(type)) {
@@ -309,7 +309,7 @@ public class WebViewActivity extends BaseActivity {
 //                                            NetWorkFunc.upLoadHtml(content, title, htmlUrl);
 //                                        }
 //                                    }).start();
-                                    NetUtil.upLoadHtmlFile(content, title, htmlUrl);
+                                    NetUtil.upLoadHtmlFile(content, title, htmlUrl,imgPath);
                                 }
                             })
                             .setActionTextColor(Color.WHITE)
