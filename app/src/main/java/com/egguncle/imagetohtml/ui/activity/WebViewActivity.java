@@ -277,7 +277,7 @@ public class WebViewActivity extends BaseActivity {
     private class WebReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, final Intent intent) {
+        public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra("type");
             Log.i(TAG, "onReceive: " + type);
             if ("save_file".equals(type)) {
