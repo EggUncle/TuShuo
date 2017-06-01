@@ -57,10 +57,10 @@ public class NetWorkFunc {
     private final static int DEFAULT_COUNT = 10;
 
     //网络请求URL  （网络服务器）
-//    private final static String BASE_URL = "http://112.74.53.14:8080/Img2htmlServer";
+    private final static String BASE_URL = "http://112.74.53.14:8080/Img2htmlServer";
     private final static String SERVER_URL = "http://112.74.53.14:8080";
     //网络请求URL （本地调试）
-    private final static String BASE_URL = "http://10.42.0.1:8080";
+  //  private final static String BASE_URL = "http://10.42.0.1:8080";
     //上传html文件
     private final static String UPLOAD_URL = BASE_URL + "/api/upload_html";
     //获取网站里的的页面 （访问静态文件)

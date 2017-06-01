@@ -403,8 +403,8 @@ public class TextStars extends RelativeLayout {
      * @return
      */
     private boolean inLayout(View view) {
-        float viewX = view.getScrollX();
-        float viewY = view.getScrollY();
+        float viewX = view.getX();
+        float viewY = view.getY();
         //  Log.i(TAG, "inLayout: " + viewX + " " + viewY);
         if (viewX < 0 - DEFAULT_DISTANCE || viewX > width + DEFAULT_DISTANCE || viewY < 0 - DEFAULT_DISTANCE || viewY > height + DEFAULT_DISTANCE) {
             return true;
@@ -429,7 +429,6 @@ public class TextStars extends RelativeLayout {
             params.topMargin += y;
             //  text.scrollTo( params.leftMargin,params.topMargin);
             text.setLayoutParams(params);
-            Log.i(TAG, "moveAllText: " + params.leftMargin + "  " + params.topMargin);
             //
             if (inLayout(text)) {
                 Log.i(TAG, "this view has move out the viewgroup");
@@ -439,49 +438,8 @@ public class TextStars extends RelativeLayout {
             }
         }
 
-//        for (TextView text:textViewList){
-//            LayoutParams params= (LayoutParams) text.getLayoutParams();
-//            params.leftMargin+=x;
-//            params.topMargin+=y;
-//            text.setLayoutParams(params);
-//         //
-//            if(inLayout(text)){
-//                Log.i(TAG, "this view has move out the viewgroup");
-//             //   textViewList.remove(text);
-//                removeViewWithOutAnim(text);
-//            }
-//        }
 
     }
-
-//    /**
-//     * 重写触摸事件，在触摸时移动内部的textview
-//     * @param view
-//     * @param motionEvent
-//     * @return
-//     */
-//    @Override
-//    public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//        switch (motionEvent.getAction()){
-//            case MotionEvent.ACTION_DOWN:
-//                Log.i(TAG, "onTouch: down");
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                Log.i(TAG, "onTouch: move");
-//                break;
-//            case MotionEvent.ACTION_SCROLL:{
-//                Log.i(TAG, "onTouch: scrool");
-//                int x= (int) motionEvent.getX();
-//                int y= (int) motionEvent.getY();
-//                Log.i(TAG, "onTouch: "+x+" "+y);
-//            }break;
-//            case MotionEvent.ACTION_UP:{
-//                Log.i(TAG, "onTouch: up");
-//            }break;
-//        }
-//        return false;
-//    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {

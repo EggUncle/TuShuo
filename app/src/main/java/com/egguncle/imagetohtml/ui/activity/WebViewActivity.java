@@ -203,7 +203,7 @@ public class WebViewActivity extends BaseActivity {
                 int webViewHeight = (int) (webview.getContentHeight() * scale);
                 Log.i(TAG, "onOptionsItemSelected: " + webview.getContentHeight());
                 Log.i(TAG, "onOptionsItemSelected: " + webViewHeight);
-                // Bitmap bitmap = webview.getDrawingCache();
+              //  Bitmap bitmap = webview.getDrawingCache();
 
                 //生成图片并绘制
                 Bitmap bitmap = Bitmap.createBitmap(webview.getWidth(), webViewHeight, Bitmap.Config.ARGB_8888);
@@ -217,12 +217,15 @@ public class WebViewActivity extends BaseActivity {
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(imgPath, opts);
-                int height = opts.outHeight;
+                int height =opts.outHeight;
                 int width = opts.outWidth;
                 Log.i(TAG, "onOptionsItemSelected: " + width + " " + height);
                 //计算裁切比率
                 float cut = (float) height / (float) width;
                 int imgH = (int) (imgW * cut);
+                if (imgH>webViewHeight){
+                    imgH=webViewHeight;
+                }
 
                 Bitmap saveBmp = Bitmap.createBitmap(bitmap, 0, 0, imgW, imgH);
                 FileUtil.saveBitmap(saveBmp);
